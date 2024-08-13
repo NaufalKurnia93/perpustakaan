@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +66,9 @@
         </table>
       </div>
     </div>
+    <div class="text-end  mt-3 p-2">
+    <a href="index.php?" class="btn btn-secondary text-end"> Kembali</a>
+  </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

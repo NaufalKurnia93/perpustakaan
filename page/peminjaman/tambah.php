@@ -14,7 +14,7 @@ if (isset($_POST['save'])) {
 $result = $peminjaman->tambah($id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas);
 
     if ($result) {
-        echo "<script>window.location.href = 'index.php?page=peminjaman';</script>";
+        echo "<script>window.location.href = 'index.php?page=peminjaman&cek=add';</script>";
     } else {
         echo "peringatan! data gagal di tambahkan.";
     }

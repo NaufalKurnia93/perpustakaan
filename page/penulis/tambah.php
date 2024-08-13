@@ -13,7 +13,7 @@ if (isset($_POST['save'])) {
 $result = $penulis->tambah($nama_penulis, $asal_negara, $jumlah_karya);
 
     if ($result) {
-        echo "<script>window.location.href = 'index.php?page=penulis';</script>";
+        echo "<script>window.location.href = 'index.php?page=penulis&cek=add';</script>";
     } else {
         echo "peringatan! data gagal di tambahkan.";
     }

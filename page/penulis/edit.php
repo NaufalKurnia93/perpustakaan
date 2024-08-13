@@ -17,7 +17,7 @@
 
             // Coba edit data penulis dan cek hasilnya
         if ($penulis->edit($id_penulis, $nama_penulis, $asal_negara, $jumlah_karya)) {
-            header("location: index.php?page=penulis");
+            header("location: index.php?page=penulis&cek=up");
             exit();
         } else {
             echo "maaf data gagal di simpan";

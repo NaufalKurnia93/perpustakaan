@@ -52,10 +52,10 @@ public function tambah($id_peminjaman, $id_buku, $denda) {
         try {
             $stmt = $this->db->prepare("UPDATE peminjaman_detail SET id_peminjaman=:id_peminjaman,
             id_buku=:id_buku,
-            denda=:denda, WHERE
+            denda=:denda WHERE
             id_peminjaman_detail=:id_peminjaman_detail");
 
-            $stmt->bindParam(":id_peminjaman_detail;", $id_peminjaman_detail);
+            $stmt->bindParam(":id_peminjaman_detail", $id_peminjaman_detail);
             $stmt->bindParam(":id_peminjaman", $id_peminjaman);
             $stmt->bindParam(":id_buku", $id_buku);
             $stmt->bindParam(":denda", $denda);
@@ -101,7 +101,7 @@ public function tambah($id_peminjaman, $id_buku, $denda) {
         public function getPeminjaman()
         {
             try {
-                $stmt = $this->db->prepare("SELECT id_peminjaman, nama_peminjaman FROM peminjaman");
+                $stmt = $this->db->prepare("SELECT id_peminjaman FROM peminjaman");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $data;
@@ -116,7 +116,7 @@ public function tambah($id_peminjaman, $id_buku, $denda) {
     public function getBuku()
     {
         try {
-            $stmt = $this->db->prepare("SELECT id_buku, nama_buku FROM buku");
+            $stmt = $this->db->prepare("SELECT id_buku, judul FROM buku");
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;

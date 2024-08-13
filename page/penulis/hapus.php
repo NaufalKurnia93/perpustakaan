@@ -11,10 +11,10 @@
  $result = $penulis->hapus($id_penulis);
  dataBase::disconnect();
  
- if ($result) {
-     echo "<script>window.location.href = 'index.php?page=penulis';</script>";
- } else {
-     echo "Terjadi kesalahan saat menghapus data.";
- }
+ if ($result == true) {
+    echo "<script>window.location.href = 'index.php?page=penulis&cek=passed';</script>";
+} else {
+   echo "<script>window.location.href = 'index.php?page=penulis&cek=failed';</script>";
+}
  
  ?>

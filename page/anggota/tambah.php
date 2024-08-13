@@ -13,7 +13,7 @@ if (isset($_POST['save'])) {
 $result = $anggota->tambah($nama_anggota, $alamat, $no_telpon);
 
     if ($result) {
-        echo "<script>window.location.href = 'index.php?page=anggota';</script>";
+        echo "<script>window.location.href = 'index.php?page=anggota&cek=add';</script>";
     } else {
         echo "peringatan! data gagal di tambahkan.";
     }

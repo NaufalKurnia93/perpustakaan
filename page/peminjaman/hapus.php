@@ -11,10 +11,10 @@
  $result = $peminjaman->hapus($id_peminjaman);
  dataBase::disconnect();
  
- if ($result) {
-     echo "<script>window.location.href = 'index.php?page=peminjaman';</script>";
- } else {
-     echo "Terjadi kesalahan saat menghapus data.";
- }
+ if ($result == true) {
+    echo "<script>window.location.href = 'index.php?page=peminjaman&cek=passed';</script>";
+} else {
+   echo "<script>window.location.href = 'index.php?page=peminjaman&cek=failed';</script>";
+}
  
  ?>
