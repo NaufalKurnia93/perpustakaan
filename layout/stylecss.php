@@ -25,6 +25,7 @@
 <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
 <script src="assets/modules/moment.min.js"></script>
 <script src="assets/js/stisla.js"></script>
+<script src="assets/js/dist/sweetalert2.min.js"></script>
 
 
 <!-- CSS Libraries -->

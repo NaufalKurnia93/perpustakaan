@@ -75,7 +75,7 @@ switch ($halaman_get) {
         break;
 
     default:
-        include('default.php');
+        include('page/dashboard/index.php');
         break;
 
 }

@@ -60,8 +60,9 @@ class Access
             $data = $stmt->fetch();
 
             if ($stmt->rowCount() > 0) { // Jika data ditemukan
-                if (password_verify($password, $data["password"])) { // Memeriksa password
-                    $_SESSION['masuk'] = $data['id']; // Menyimpan ID pengguna di sesi
+                 // Memeriksa password apakah sama yang dimasukkan
+                if (password_verify($password, $data["password"])) {
+                    $_SESSION['user_id'] = $data['id']; // Menyimpan ID 
                     return true; // Berhasil
                 } else {
                     $this->error = 'Username Atau Password Salah';
@@ -80,12 +81,10 @@ class Access
     // Mengecek apakah pengguna sudah login
     public function cekLogin()
     {
-        // Jika ada sesi pengguna
-        if (isset($_SESSION["masuk"])) {
-            return true; // Sudah login
-        }
-        return false; // Belum login
+        // Periksa apakah variabel sesi 'user_id' ada
+        return isset($_SESSION["user_id"]);
     }
+    
 
     // Mendapatkan data pengguna yang sedang login
     public function cari_pengguna()
@@ -95,7 +94,7 @@ class Access
         }
         try {
             $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-            $stmt->bindParam(":id", $_SESSION['masuk']);
+            $stmt->bindParam(":id", $_SESSION['user_id']);
             $stmt->execute();
             return $stmt->fetch(); // Mengembalikan data pengguna
         } catch (PDOException $e) {
@@ -107,7 +106,7 @@ class Access
     // Menghapus sesi pengguna untuk logout
     public function logout()
     {
-        unset($_SESSION['masuk']); // Menghapus sesi pengguna
+        unset($_SESSION['user_id']); // Menghapus sesi pengguna
         session_destroy(); // Menghentikan sesi
         return true; // Berhasil
     }
@@ -121,10 +120,10 @@ class Access
             $stmt->bindParam(":email", $email);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
-                echo "Yo"; // Username dan email sudah ada
+                echo "Username dan email sudah si temukan ."; // Username dan email sudah ada
                 return true;
             } else {
-                echo "Oi"; // Username dan email belum ada
+                echo "Username dan email tidak ditemukan."; // Username dan email belum ada
                 return false;
             }
         } catch (PDOException $e) {

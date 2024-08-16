@@ -152,10 +152,6 @@ $jumlah_kategori = $resultkategori->fetchColumn();
     </div>
   </section>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        Swal.fire("Selamat dataangg!");
-    </script>
     
     <?php
   

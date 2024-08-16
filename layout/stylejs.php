@@ -14,7 +14,6 @@
 <script src="assets/modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 <script src="assets/modules/summernote/summernote-bs4.js"></script>
 <script src="assets/modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
-<script src="assets/js/dist/sweetalert2.min.js"></script>
 <script src="assets/js/dist/swtal.js"></script>
 <script src="assets/js/dist/myjs.js"></script>
 <script src="assets/modules/jquery-selectric/jquery.selectric.min.js"></script>

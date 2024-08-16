@@ -51,6 +51,7 @@ if (isset($_POST['login'])) {
                             </div>
                         <?php } ?>
                     </div>
+
                     <div id="notifikasi">
                         <div class="alert alert-danger">
                             <small>Login Anda Gagal, Periksa Kembali Username dan Password</small>

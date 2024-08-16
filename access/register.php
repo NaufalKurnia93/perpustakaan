@@ -4,9 +4,9 @@ $pdo = dataBase::connect();
 $user = Access::getInstance($pdo);
 
 
-if ($user->cekLogin()) {
-	header("Location: ../index.php");
-}
+// if ($user->cekLogin()) {
+// 	header("Location: ../index.php");
+// }
 
 if (isset($_POST["buat"])) {
 	$nama = htmlspecialchars($_POST["nama"]);
@@ -39,8 +39,10 @@ if (isset($_POST["buat"])) {
 	<div class="container">
 
 		<div class="row">
-			<div class="col-sm-3"> 
-				<span style="color:#fff" ;>Selamat Datang,<?php echo $sesi['nama']; ?></span> 
+			<div class="col-sm-3">
+				<span style="color:#fff" ;>Selamat Datang,
+					<?php echo $pengguna['nama']; ?>
+				</span>
 			</div>
 			<div class="col-lg-6">
 				<br />
