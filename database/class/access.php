@@ -1,100 +1,179 @@
-<?php 
-class User {
+<?php
 
-    protected $db;
-    function __construct($db){
-        $this->db = $db;
+class Access
+{
+    private $db; // Koneksi ke database
+    private $error; // Tempat menyimpan pesan error
+    private static $instance = null; // Menyimpan satu instance dari kelas ini
+
+    // Konstruktor untuk inisialisasi koneksi database dan memulai sesi
+    public function __construct($db_conn)
+    {
+        $this->db = $db_conn;
+        @session_start(); // Memulai sesi jika belum dimulai
     }
 
-    function proses_login($user,$pass)
+    // Mendapatkan instance dari kelas ini
+    public static function getInstance($pdo)
     {
-        // untuk password kita enkrip dengan md5
-        $row = $this->db->prepare('SELECT * FROM tbl_user WHERE username=? AND password=md5(?)');
-        $row->execute(array($user,$pass));
-        $count = $row->rowCount();
-        if($count > 0)
-        {
-            return $hasil = $row->fetch();
-        }else{
-            return 'gagal';
+        if (self::$instance == null) {
+            self::$instance = new Access($pdo); // Membuat instance baru jika belum ada
         }
+        return self::$instance;
     }
 
-    // variable $tabel adalah isi dari nama table database yang ingin ditampilkan
-
-    function tampil_data($tabel)
+    // Menambahkan data pengguna baru
+    public function new_user($nama, $username, $email, $no_telp, $password)
     {
-        $row = $this->db->prepare("SELECT * FROM $tabel");
-        $row->execute();
-        return $hasil = $row->fetchAll();
-    }
+        try {
+            $this->cekUsernameDanEmail($username, $email); // Mengecek apakah username dan email sudah ada
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT); // Mengamankan password
+            // Menyimpan data pengguna baru ke database
+            $stmt = $this->db->prepare("INSERT INTO users (nama, username,email, no_telp, password) 
+                                        VALUES(:nama, :username ,:email,  :no_telp, :password)");
 
-    // variable $tabel adalah isi dari nama table database yang ingin ditampilkan
-    // variable where adalah isi kolom tabel yang mau diambil
-    // variable id adalah id yang mau di ambil
-    
-    function tampil_data_id($tabel,$where,$id)
-    {
-        $row = $this->db->prepare("SELECT * FROM $tabel WHERE $where = ?");
-        $row->execute(array($id));
-        return $hasil = $row->fetch();
-    }
-
-    function tambah_data($tabel,$data)
-    {
-        // buat array untuk isi values insert sumber kode 
-        // http://thisinterestsme.com/pdo-prepared-multi-inserts/
-        $rowsSQL = array();
-        // buat bind param Prepared Statement
-        $toBind = array();
-        // list nama kolom
-        $columnNames = array_keys($data[0]);
-        // looping untuk mengambil isi dari kolom / values
-        foreach($data as $arrayIndex => $row){
-            $params = array();
-            foreach($row as $columnName => $columnValue){
-                $param = ":" . $columnName . $arrayIndex;
-                $params[] = $param;
-                $toBind[$param] = $columnValue;
+            $stmt->bindParam(":nama", $nama);
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->bindParam(":no_telp", $no_telp);
+            $stmt->bindParam(":password", $hashPassword);
+            $stmt->execute();
+            return true; // Berhasil
+        } catch (PDOException $e) {
+            if ($e->errorInfo[0] === '23000') { // Jika email sudah terdaftar
+                $this->error = "Email ini sudah terdaftar. Gunakan email lain.";
+                return false; // Gagal
+            } else {
+                echo $e->getMessage(); // Menampilkan pesan error
+                return false; // Gagal
             }
-            $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-        $sql = "INSERT INTO $tabel (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
-        $row = $this->db->prepare($sql);
-        //Bind our values.
-        foreach($toBind as $param => $val){
-            $row ->bindValue($param, $val);
-        }
-        //Execute our statement (i.e. insert the data).
-        return $row ->execute();
     }
 
-    function edit_data($tabel,$data,$where,$id)
+    // Fungsi untuk login pengguna
+    public function login($username, $password)
     {
-        // sumber kode 
-        // https://stackoverflow.com/questions/23019219/creating-generic-update-function-using-php-mysql
-        $setPart = array();
-        foreach ($data as $key => $value)
-        {
-            $setPart[] = $key."=:".$key;
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
+            $stmt->bindParam(":username", $username);
+            $stmt->execute();
+            $data = $stmt->fetch();
+
+            if ($stmt->rowCount() > 0) { // Jika data ditemukan
+                if (password_verify($password, $data["password"])) { // Memeriksa password
+                    $_SESSION['masuk'] = $data['id']; // Menyimpan ID pengguna di sesi
+                    return true; // Berhasil
+                } else {
+                    $this->error = 'Username Atau Password Salah';
+                    return false; // Gagal
+                }
+            } else {
+                $this->error = 'Username Atau Password Salah';
+                return false; // Gagal
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage(); // Menampilkan pesan error
+            return false; // Gagal
         }
-        $sql = "UPDATE $tabel SET ".implode(', ', $setPart)." WHERE $where = :id";
-        $row = $this->db->prepare($sql);
-        //Bind our values.
-        $row ->bindValue(':id',$id); // where
-        foreach($data as $param => $val)
-        {
-            $row ->bindValue($param, $val);
-        }
-        return $row ->execute();
     }
 
-    function hapus_data($tabel,$where,$id)
+    // Mengecek apakah pengguna sudah login
+    public function cekLogin()
     {
-        $sql = "DELETE FROM $tabel WHERE $where = ?";
-        $row = $this->db->prepare($sql);
-        return $row ->execute(array($id));
+        // Jika ada sesi pengguna
+        if (isset($_SESSION["masuk"])) {
+            return true; // Sudah login
+        }
+        return false; // Belum login
     }
 
+    // Mendapatkan data pengguna yang sedang login
+    public function cari_pengguna()
+    {
+        if (!$this->cekLogin()) {
+            return false; // Jika belum login
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+            $stmt->bindParam(":id", $_SESSION['masuk']);
+            $stmt->execute();
+            return $stmt->fetch(); // Mengembalikan data pengguna
+        } catch (PDOException $e) {
+            echo $e->getMessage(); // Menampilkan pesan error
+            return false; // Gagal
+        }
+    }
 
+    // Menghapus sesi pengguna untuk logout
+    public function logout()
+    {
+        unset($_SESSION['masuk']); // Menghapus sesi pengguna
+        session_destroy(); // Menghentikan sesi
+        return true; // Berhasil
+    }
+
+    // Mengecek apakah username dan email sudah ada
+    public function cekUsernameDanEmail($username, $email)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                echo "Yo"; // Username dan email sudah ada
+                return true;
+            } else {
+                echo "Oi"; // Username dan email belum ada
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage(); // Menampilkan pesan error
+        }
+    }
+
+    // Mengubah password jika lupa
+    public function forgotPassword($username, $email, $password)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($data) {
+                $this->NewPassword($username, $email, $password); // Mengubah password
+                echo "Username Dan Email sesuai password diganti";
+                return true; // Berhasil
+            } else {
+                echo "Username Dan Email yang dimasukkan tidak sesuai";
+                return false; // Gagal
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage(); // Menampilkan pesan error
+        }
+    }
+
+    // Mengubah password pengguna
+    public function NewPassword($username, $email, $password)
+    {
+        try {
+            $hash = password_hash($password, PASSWORD_DEFAULT); // Mengamankan password
+            $stmt = $this->db->prepare("UPDATE user SET password = :password WHERE username = :username AND email = :email");
+            $stmt->bindParam(":password", $hash);
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+            return true; // Berhasil
+        } catch (PDOException $e) {
+            echo $e->getMessage(); // Menampilkan pesan error
+        }
+    }
+
+    // Mengambil pesan error terakhir
+    public function getError()
+    {
+        return $this->error; // Mengembalikan pesan error
+    }
 }

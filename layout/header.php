@@ -29,13 +29,24 @@
                         </div>
                     </div>
                 </li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown"
+                <li class="dropdown"><a href="index.php?access=login" data-toggle="dropdown"
                         class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <img alt="image" src="assets/img/avatar/avatar-3.png" width="30" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">hai!!</div>
                     </a>
+                    <!-- <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item">Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div> -->
                 </li>
+
             </ul>
         </nav>
     </div>
 </div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+

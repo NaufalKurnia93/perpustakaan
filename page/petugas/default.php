@@ -1,6 +1,6 @@
 <?php
-include "database/class/petugas.php";
-include "database/koneksi.php";
+include_once "database/class/petugas.php";
+include_once "database/koneksi.php";
 
 // var_dump($_GET); // cek debugging
 

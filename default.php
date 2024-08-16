@@ -1,5 +1,5 @@
 <?php
-include 'database/koneksi.php';
+include_once 'database/koneksi.php';
 $pdo = dataBase::connect();
 
 // Query SQL dan kode lainnya untuk menghitung jumlah table data yang ada
@@ -57,7 +57,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
 
     <div class="section-body">
 
-      <div class="row justify-content-center mt-4n">
+      <div class="row justify-content-center ">
         <div class="col-md-6 col-lg-4 col-12 mb-3">
           <div class="small-box bg-primary">
             <div class="inner">
@@ -123,7 +123,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 col-12 mb-3">
+        <div class="col-md-6 col-lg-4 col-12 mb-2">
           <div class="small-box bg-danger">
             <div class="inner">
               <h3>Peminjaman Detail</h3>
@@ -136,7 +136,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 col-12 mb-3">
+        <div class="col-md-6 col-lg-4 col-12 mb-0">
           <div class="small-box bg-secondary">
             <div class="inner">
               <h3>Kategori</h3>

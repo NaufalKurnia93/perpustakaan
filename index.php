@@ -1,4 +1,43 @@
 <?php
+ include_once('database/koneksi.php');
+ include('database/class/access.php');
+
+ $pdo = dataBase::connect();
+ $user = Access::getInstance($pdo);
+ $userInfo = $user->cari_pengguna();
+
+ if (!$user->cekLogin() && $user->cekLogin() == false) {
+    $login = isset($_GET['access']) ? $_GET['access'] : 'access';
+    switch ($login) {
+        case 'login':
+            include 'access/login.php'; 
+            break;
+        case 'register':
+            include 'access/register.php';
+            break;
+        case 'forgout':
+            include 'access/edit_akun.php';
+            break;
+        default:
+            include ('access/login.php'); 
+            break;
+    }
+    exit; 
+ }
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <?php
+        
 
 if (isset($_GET['page'])) {
     $halaman_get = $_GET['page'];
@@ -40,11 +79,9 @@ switch ($halaman_get) {
         break;
 
 }
+    ?>
 
-?>
-
-<!-- sweet alert  -->
-
+    <!-- sweet alert  -->
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -76,6 +113,7 @@ switch ($halaman_get) {
                 });
 
                 break;
+                
             //alert tambah
             case 'add':
                 Swal.fire({
@@ -97,3 +135,6 @@ switch ($halaman_get) {
         }
     });
 </script>
+</body>
+</html>
+
