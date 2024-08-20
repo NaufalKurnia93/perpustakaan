@@ -52,7 +52,7 @@
                         <td class="text-center">
                           <a href="index.php?page=anggota&act=update&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-info btn-sm">Edit</a>
 
-                          <a href="index.php?page=anggota&act=delete&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Perhatian! Data Anda akan segera dihapus. Pastikan semua informasi penting telah dicadangkan.?')">Hapus</a>
+                          <a href="index.php?page=anggota&act=delete&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-danger btn-sm">Hapus</a>
 
                         </td>
                     </tr>

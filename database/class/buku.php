@@ -86,7 +86,7 @@ public function tambah($judul, $id_kategori, $id_penulis, $penerbit, $tahun_terb
         }
     } 
 
-    // operasi get all anggota play
+    // operasi get all buku play
     public function getAll() {
         try {
             $stmt = $this->db->prepare("SELECT buku.*, kategori.nama_kategori, penulis.nama_penulis 

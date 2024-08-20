@@ -3,17 +3,23 @@
 <!-- General CSS Files -->
 <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="assets/modules/prism/prism.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- Plugins -->
 <link rel="stylesheet" href="assets/modules/bootstrap-social/bootstrap-social.css">
 <link rel="stylesheet" href="assets/js/dist/sweetalert2.all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
+
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
+<link rel="stylesheet" href="assets/css/custom.css">
+
 </head>
 
 
@@ -26,6 +32,7 @@
 <script src="assets/modules/moment.min.js"></script>
 <script src="assets/js/stisla.js"></script>
 <script src="assets/js/dist/sweetalert2.min.js"></script>
+
 
 
 <!-- CSS Libraries -->

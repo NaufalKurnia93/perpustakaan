@@ -40,9 +40,6 @@ if (isset($_POST["buat"])) {
 
 		<div class="row">
 			<div class="col-sm-3">
-				<span style="color:#fff" ;>Selamat Datang,
-					<?php echo $pengguna['nama']; ?>
-				</span>
 			</div>
 			<div class="col-lg-6">
 				<br />
@@ -83,8 +80,6 @@ if (isset($_POST["buat"])) {
 				<div class="pt-3">
 					<a href="index.php" class="btn btn-success btn-md" style="margin-right:1pc;"><span
 							class="fa fa-home"></span> Kembali</a>
-					<a href="index.php?access=forgout" class="btn btn-danger btn-md float-right"><span
-							class="fa fa-sign-out"></span> Logout</a>
 				</div>
 			</div>
 			<div class="col-sm-3">

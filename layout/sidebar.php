@@ -1,4 +1,4 @@
-<div class="main-sidebar sidebar-style-2">
+<div class="main-sidebar sidebar-style-2" style="background-color: #f0f4f8;">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
             <h5 class="mt-4">Perpustakaan Umum</h5>
@@ -50,6 +50,3 @@
         </ul>
     </aside>
 </div>
-
-
-

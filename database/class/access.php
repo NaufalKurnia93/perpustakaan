@@ -10,7 +10,7 @@ class Access
     public function __construct($db_conn)
     {
         $this->db = $db_conn;
-        @session_start(); // Memulai sesi jika belum dimulai
+        @session_start(); // Memulai sesi
     }
 
     // Mendapatkan instance dari kelas ini
@@ -104,10 +104,10 @@ class Access
     }
 
     // Menghapus sesi pengguna untuk logout
-    public function logout()
+    public function loGout()
     {
-        unset($_SESSION['user_id']); // Menghapus sesi pengguna
-        session_destroy(); // Menghentikan sesi
+        unset($_SESSION['user_id']);
+        session_destroy(); // Menghentikan  dan menghapus sesi
         return true; // Berhasil
     }
 
@@ -115,12 +115,12 @@ class Access
     public function cekUsernameDanEmail($username, $email)
     {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username AND email = :email");
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":email", $email);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
-                echo "Username dan email sudah si temukan ."; // Username dan email sudah ada
+                echo "Username dan email sudah ditemukan ."; // Username dan email sudah ada
                 return true;
             } else {
                 echo "Username dan email tidak ditemukan."; // Username dan email belum ada
@@ -132,43 +132,43 @@ class Access
     }
 
     // Mengubah password jika lupa
-    public function forgotPassword($username, $email, $password)
-    {
-        try {
-            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
-            $stmt->bindParam(":username", $username);
-            $stmt->bindParam(":email", $email);
-            $stmt->execute();
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    // public function forgotPassword($username, $email, $password)
+    // {
+    //     try {
+    //         $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
+    //         $stmt->bindParam(":username", $username);
+    //         $stmt->bindParam(":email", $email);
+    //         $stmt->execute();
+    //         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($data) {
-                $this->NewPassword($username, $email, $password); // Mengubah password
-                echo "Username Dan Email sesuai password diganti";
-                return true; // Berhasil
-            } else {
-                echo "Username Dan Email yang dimasukkan tidak sesuai";
-                return false; // Gagal
-            }
-        } catch (PDOException $e) {
-            echo $e->getMessage(); // Menampilkan pesan error
-        }
-    }
+    //         if ($data) {
+    //             $this->NewPassword($username, $email, $password); // Mengubah password
+    //             echo "Username Dan Email sesuai password diganti";
+    //             return true; // Berhasil
+    //         } else {
+    //             echo "Username Dan Email yang dimasukkan tidak sesuai";
+    //             return false; // Gagal
+    //         }
+    //     } catch (PDOException $e) {
+    //         echo $e->getMessage(); // Menampilkan pesan error
+    //     }
+    // }
 
-    // Mengubah password pengguna
-    public function NewPassword($username, $email, $password)
-    {
-        try {
-            $hash = password_hash($password, PASSWORD_DEFAULT); // Mengamankan password
-            $stmt = $this->db->prepare("UPDATE user SET password = :password WHERE username = :username AND email = :email");
-            $stmt->bindParam(":password", $hash);
-            $stmt->bindParam(":username", $username);
-            $stmt->bindParam(":email", $email);
-            $stmt->execute();
-            return true; // Berhasil
-        } catch (PDOException $e) {
-            echo $e->getMessage(); // Menampilkan pesan error
-        }
-    }
+    // // Mengubah password pengguna
+    // public function NewPassword($username, $email, $password)
+    // {
+    //     try {
+    //         $hash = password_hash($password, PASSWORD_DEFAULT); // Mengamankan password
+    //         $stmt = $this->db->prepare("UPDATE user SET password = :password WHERE username = :username AND email = :email");
+    //         $stmt->bindParam(":password", $hash);
+    //         $stmt->bindParam(":username", $username);
+    //         $stmt->bindParam(":email", $email);
+    //         $stmt->execute();
+    //         return true; // Berhasil
+    //     } catch (PDOException $e) {
+    //         echo $e->getMessage(); // Menampilkan pesan error
+    //     }
+    // }
 
     // Mengambil pesan error terakhir
     public function getError()

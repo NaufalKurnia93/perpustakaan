@@ -60,8 +60,7 @@
                     class="btn btn-info btn-sm">Edit</a>
 
                   <a href="index.php?page=peminjaman_detail&act=delete&id_peminjaman_detail=<?php echo $row['id_peminjaman_detail'] ?>"
-                    class="btn btn-danger btn-sm"
-                    onclick="return confirm('Perhatian! Data Anda akan segera dihapus. Pastikan semua informasi penting telah dicadangkan.?')">Hapus</a>
+                    class="btn btn-danger btn-sm">Hapus</a>
 
                 </td>
               </tr>

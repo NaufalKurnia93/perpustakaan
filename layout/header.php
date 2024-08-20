@@ -39,15 +39,11 @@
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="#">setting</a>
-                        <a class="dropdown-item" href="#">register</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <hr class="dropdown-divider">
+                        <a href="index.php?page=logout" class="btn btn-danger btn-md float-right mr-2"><span
+							class="fa fa-sign-out"></span> Logout</a>
                     </div>
-
                 </li>
-
-
-
-
             </ul>
         </nav>
     </div>

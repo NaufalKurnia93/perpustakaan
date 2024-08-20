@@ -51,11 +51,9 @@
                         <td><?php echo htmlspecialchars($row['jumlah_karya'] ) ?></td>
 
                         <td class="text-center">
-                           <a href="index.php?page=penulis&act=update&id_penulis=<?php echo $row['id_penulis'] ?>" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i> Edit </a>
+                           <a href="index.php?page=penulis&act=update&id_penulis=<?php echo $row['id_penulis'] ?>" class="btn btn-primary btn-sm">Edit </a>
                                     
-                           <a href="index.php?page=penulis&act=delete&id_penulis=<?php echo $row['id_penulis'] ?>" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-edit"></i> Hapus </a>
+                           <a href="index.php?page=penulis&act=delete&id_penulis=<?php echo $row['id_penulis'] ?>" class="btn btn-danger btn-sm">Hapus </a>
 
                         </td>
                     </tr>

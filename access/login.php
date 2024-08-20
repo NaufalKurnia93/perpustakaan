@@ -1,12 +1,11 @@
 <?php
-// Menghubungkan ke database menggunakan PDO
 include_once "database/koneksi.php";
 include_once "database/class/access.php";
 
 $pdo = dataBase::connect();
 $user = Access::getInstance($pdo);
 
-// Memeriksa apakah form login telah disubmit
+// jika login di jalankan
 if (isset($_POST['login'])) {
     // Mengambil dan membersihkan input dari form
     $username = htmlspecialchars($_POST['username']);
@@ -15,7 +14,7 @@ if (isset($_POST['login'])) {
     // Memeriksa apakah nama pengguna dan kata sandi benar
     if ($user->login($username, $password)) {
         header('Location: index.php');
-        exit;
+        exit; 
     } else {
         // login gagal
         $error = $user->getError();
@@ -42,18 +41,9 @@ if (isset($_POST['login'])) {
         <section class="section">
             <div class="row ">
                 <div class="col-sm-5 offset-sm-4 ">
-                    <!-- <br /><br /> -->
-
-                    <div id="logout">
-                        <?php if (isset($_GET['signout'])) { ?>
-                            <div class="alert alert-success">
-                                <small>Anda Berhasil Logout</small>
-                            </div>
-                        <?php } ?>
-                    </div>
 
                     <div id="notifikasi">
-                        <div class="alert alert-danger">
+                        <div class="alert alert-info text-dark ">
                             <small>Login Anda Gagal, Periksa Kembali Username dan Password</small>
                         </div>
                     </div>
@@ -66,8 +56,6 @@ if (isset($_POST['login'])) {
                             <h4 class="card-title text-center">Sign in</h4>
                         </div>
                         <div class="card-body">
-                            <!-- form berfungsi mengirimkan data input 
-                        dengan method post ke proses login dengan paramater get aksi login -->
                             <form method="POST" action="">
                                 <div class="form-group">
                                     <label>Username</label>

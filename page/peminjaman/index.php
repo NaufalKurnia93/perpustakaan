@@ -54,7 +54,7 @@
                         <td class="text-center">
                            <a href="index.php?page=peminjaman&act=update&id_peminjaman=<?php echo $row['id_peminjaman'] ?>" class="btn btn-info btn-sm">Edit</a>
 
-                          <a href="index.php?page=peminjaman&act=delete&id_peminjaman=<?php echo $row['id_peminjaman'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Perhatian! Data Anda akan segera dihapus. Pastikan semua informasi penting telah dicadangkan.?')">Hapus</a>
+                          <a href="index.php?page=peminjaman&act=delete&id_peminjaman=<?php echo $row['id_peminjaman'] ?>" class="btn btn-danger btn-sm">Hapus</a>
 
                         </td>
                     </tr>
