@@ -1,6 +1,6 @@
 <?php
-include_once 'database/koneksi.php';
-$pdo = dataBase::connect();
+// include_once 'database/koneksi.php';
+// $pdo = dataBase::connect();
 
 // Query SQL dan kode lainnya untuk menghitung jumlah table data yang ada
 $sqlAnggota = 'SELECT COUNT(*) FROM anggota';
@@ -34,20 +34,25 @@ $resultkategori = $pdo->query($sqlkategori);
 $jumlah_kategori = $resultkategori->fetchColumn();
 
 ?>
-
-<!--  Content -->
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <?php
-  include 'layout/stylecss.php';
-  ?>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <style>
+        .main-style-2 {
+            padding-left: 100px;
+        }
 
+        .row-style2 {
+            margin-left: -60px;
+            margin-right: -60px;
+        }
+
+    </style>
+</head>
 <body>
-  <?php
-  include('layout/header.php');
-  include("layout/sidebar.php");
-  ?>
   <!-- Main Content -->
   <div class="main-content main-style-2">
     <section class="section">
@@ -57,7 +62,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
 
       <div class="section-body">
 
-        <div class="row justify-content-center ">
+        <div class="row justify-content-center row-style2">
           <div class="col-md-6 col-lg-4 col-12 mb-3">
             <div class="small-box bg-primary">
               <div class="inner">
@@ -174,9 +179,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
     </section>
   </div>
 
-  <?php
-  include("layout/footer.php");
-  include("layout/stylejs.php");
-  ?>
 </body>
-<!-- Main Content -->
+</html>
+
+  

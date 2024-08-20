@@ -1,11 +1,5 @@
-
-
-<!-- Footer -->
-<footer class="main-footer bg-primary text-light">
-    <div class="footer-content">
-        <h3 class="text-center ">&copy; Perpustakaan. All rights reserved.</h3>
-    </div>
+<footer class="bg-light text-center py-3 pd">
+  <div class="container">
+    <span class="text-muted">&copy; 2024 Perpustakaan Naufal. All Rights Reserved.</span>
+  </div>
 </footer>
-
-<!-- Footer -->
-

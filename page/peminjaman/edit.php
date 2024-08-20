@@ -47,7 +47,6 @@ if (isset($_POST['save'])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <title>Edit Peminjaman</title>
 </head>
 
@@ -57,7 +56,7 @@ if (isset($_POST['save'])) {
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <div class="card">
-          <div class="card-header text-center bg-primary">
+          <div class="card-header">
             Edit peminjaman
           </div>
           <div class="card-body">
@@ -120,8 +119,6 @@ if (isset($_POST['save'])) {
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

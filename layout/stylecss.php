@@ -8,7 +8,6 @@
 
 <!-- Plugins -->
 <link rel="stylesheet" href="assets/modules/bootstrap-social/bootstrap-social.css">
-<link rel="stylesheet" href="assets/js/dist/sweetalert2.all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">

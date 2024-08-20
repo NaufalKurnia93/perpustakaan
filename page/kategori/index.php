@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,76 +5,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kategori</title>
-  <!-- cdn bootsrap css -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <!-- cdn bootsrap css -->
 </head>
 
 <body>
   <div class="container mt-5">
     <div class="card">
-      <div class="card-header bg-primary p-3 fw-bold text-center h4">
-        Daftar Kategori
+      <div class="card-header text-center">
+        <h4 class="mb-0">Daftar Kategori</h4>
       </div>
-      <div class="card-body border border-primary">
-        <a href="index.php?page=kategori&act=create" class="btn btn-md btn-info ml-3" style="margin-bottom: 16px">TAMBAH
-          DATA</a>
+      <div class="card-body">
+        <a href="index.php?page=kategori&act=create" class="btn btn-info mb-3">TAMBAH DATA</a>
 
-        <table class="table table-bordered  border border-info table-hover table-sm">
-          <thead class="thead">
-            <tr class=" border border-info text-center">
-              <th scope="col" class="fw-bold">No</th>
-              <th scope="col" class="fw-bold">Nama Kategori</th>
-              <th scope="col" class="fw-bold">Aksi</th>
+        <table class="table table-bordered table-hover table-sm">
+          <thead class="thead-light">
+            <tr class="text-center">
+              <th scope="col" class="font-weight-bold">No</th>
+              <th scope="col" class="font-weight-bold">Nama Kategori</th>
+              <th scope="col" class="font-weight-bold">Aksi</th>
             </tr>
           </thead>
 
           <tbody>
-
             <?php
             require_once 'database/koneksi.php';
             require_once 'database/class/kategori.php';
 
             $pdo = dataBase::connect();
             $kategori = Kategori::getInstance($pdo);
-            $datakategori = $kategori->getAll();
+            $dataKategori = $kategori->getAll();
             $no = 1;
 
-            foreach ($datakategori as $row) {
-              ?>
-
+            foreach ($dataKategori as $row) {
+            ?>
               <tr>
-                <td>
-                  <?php echo $no++ ?>
-                </td>
-                <td>
-                  <?php echo $row['nama_kategori'] ?>
-                </td>
+                <td class="text-center"><?php echo $no++ ?></td>
+                <td><?php echo htmlspecialchars($row['nama_kategori']); ?></td>
                 <td class="text-center">
-                  <a href="index.php?page=kategori&act=update&id_kategori=<?php echo $row['id_kategori'] ?>"
-                    class="btn btn-info btn-sm">Edit</a>
-
-                  <a href="index.php?page=kategori&act=delete&id_kategori=<?php echo $row['id_kategori'] ?>"
-                    class="btn btn-danger btn-sm">Hapus</a>
+                  <a href="index.php?page=kategori&act=update&id_kategori=<?php echo $row['id_kategori'] ?>" class="btn btn-info btn-sm">Edit</a>
+                  <a href="index.php?page=kategori&act=delete&id_kategori=<?php echo $row['id_kategori'] ?>" class="btn btn-danger btn-sm">Hapus</a>
                 </td>
               </tr>
-              <?php
+            <?php
             }
+            dataBase::disconnect();
             ?>
           </tbody>
-
         </table>
       </div>
     </div>
-    <div class="text-end  mt-3 p-2">
-      <a href="index.php?" class="btn btn-secondary text-end"> Kembali</a>
+    <div class="text-right mt-3">
+      <a href="index.php?" class="btn btn-secondary">Kembali</a>
     </div>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
