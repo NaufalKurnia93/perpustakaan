@@ -19,7 +19,7 @@ if (isset($_POST['save'])) {
 
   // Coba edit data buku dan cek hasilnya
   if ($buku->edit($id_buku, $judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit)) {
-    header("location: index.php?page=buku&cek=up");
+    header("location: index.php?page=buku&cek=updt");
     // exit();
   } else {
     echo "maaf data gagal di simpan";
@@ -54,7 +54,7 @@ if (isset($_POST['save'])) {
 
 <body>
 
-  <div class="container" style="margin-top: 80px">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <div class="card">
@@ -71,7 +71,7 @@ if (isset($_POST['save'])) {
 
               </div>
 
-              <div class="form-group mb-2">
+              <div class="form-group ">
                 <label class="form-label">Kategori</label>
                 <select class="form-control" name="nama_kategori">
                   <option value="">--pilih kategori--</option>
@@ -89,7 +89,7 @@ if (isset($_POST['save'])) {
               </div>
 
 
-              <div class="form-group mb-2">
+              <div class="form-group ">
                 <label class="form-label">Penulis</label>
                 <select class="form-control" name="nama_penulis">
                   <option value="">--penulis--</option>

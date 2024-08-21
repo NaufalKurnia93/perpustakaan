@@ -19,7 +19,7 @@ if (isset($_POST['save'])) {
 
     // Coba edit data petugas dan cek hasilnya
     if ($petugas->edit($id_petugas, $nama_petugas, $jenis_kelamin, $alamat, $jabatan, $shift)) {
-        header("location: index.php?page=petugas&cek=up");
+        header("location: index.php?page=petugas&cek=updt");
         exit();
     } else {
         echo "maaf data gagal di simpan";

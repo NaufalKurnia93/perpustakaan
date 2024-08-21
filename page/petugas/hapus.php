@@ -12,7 +12,7 @@ $result = $petugas->hapus($id_petugas);
 dataBase::disconnect();
 
 if ($result == true) {
-    echo "<script>window.location.href = 'index.php?page=petugas&cek=passed';</script>";
+    echo "<script>window.location.href = 'index.php?page=petugas&cek=del';</script>";
 } else {
    echo "<script>window.location.href = 'index.php?page=petugas&cek=failed';</script>";
 }

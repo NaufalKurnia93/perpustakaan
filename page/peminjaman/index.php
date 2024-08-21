@@ -59,9 +59,7 @@
         </table>
       </div>
     </div>
-    <div class="text-right mt-3">
-      <a href="index.php?" class="btn btn-secondary">Kembali</a>
-    </div>
+
   </div>
 
 </body>

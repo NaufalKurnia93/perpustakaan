@@ -14,7 +14,7 @@ if (isset($_POST['login'])) {
     // Memeriksa apakah nama pengguna dan kata sandi benar
     if ($user->login($username, $password)) {
         header('Location: index.php');
-        exit; 
+        exit;
     } else {
         // login gagal
         $error = $user->getError();
@@ -67,12 +67,18 @@ if (isset($_POST['login'])) {
                                     <label>Password</label>
                                     <input name="password" class="form-control" placeholder="******" type="password"
                                         required="required" autocomplete="off">
+                                        <div class="float-right">
+                                            <a href="index.php?access=forget" class="text-small">
+                                                Forgot Password?
+                                            </a>
+                                        </div>
                                 </div>
 
                                 <div class="form-group">
                                     <button type="submit" name="login" class="btn btn-primary btn-block"> Login
                                     </button>
                                 </div>
+
                             </form>
                             <div class="pt-2 text-center text-muted ">
                                 <p>Belum Memiliki Akun?. <a href="index.php?access=register">Buat Akun</a></p>

@@ -34,3 +34,4 @@ $("#tambah-data").fireModal({
     },
   ],
 });
+

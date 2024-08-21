@@ -17,7 +17,7 @@ if (isset($_POST['save'])) {
 
     // Coba edit data anggota dan cek hasilnya
     if ($anggota->edit($id_anggota, $nama_anggota, $alamat, $no_telpon)) {
-        header("location: index.php?page=anggota&cek=up");
+        header("location: index.php?page=anggota&cek=updt");
         exit();
     } else {
         echo "maaf data gagal di simpan";

@@ -12,7 +12,7 @@
  dataBase::disconnect();
  
  if ($result == true) {
-    echo "<script>window.location.href = 'index.php?page=penulis&cek=passed';</script>";
+    echo "<script>window.location.href = 'index.php?page=penulis&cek=del';</script>";
 } else {
    echo "<script>window.location.href = 'index.php?page=penulis&cek=failed';</script>";
 }

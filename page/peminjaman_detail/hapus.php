@@ -12,7 +12,7 @@ $result = $peminjaman_detail->hapus($id_peminjaman_detail);
 dataBase::disconnect();
 
 if ($result == true) {
-    echo "<script>window.location.href = 'index.php?page=peminjaman_detail&cek=passed';</script>";
+    echo "<script>window.location.href = 'index.php?page=peminjaman_detail&cek=del';</script>";
 } else {
    echo "<script>window.location.href = 'index.php?page=peminjaman_detail&cek=failed';</script>";
 }

@@ -56,9 +56,45 @@
         </table>
       </div>
     </div>
-    <div class="text-right mt-3">
-      <a href="index.php?" class="btn btn-secondary">Kembali</a>
-    </div>
   </div>
+<!-- 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+        function hapus(id_anggota) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary mx-4',
+                    cancelButton: 'btn btn-danger mx-4'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Hapus Data Pembelian',
+                text: "Data kamu nggak bisa kembali lagi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, menghapus !',
+                cancelButtonText: 'Tidak, batal !',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Hapus!',
+                        'File kamu telah dihapus.',
+                        'success'
+                    )
+                    window.location.href = 'index.php?page=anggota&act=del&id_anggota=' + id;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Batal',
+                        'File kamu masih aman :)',
+                        'error'
+                    )
+                }
+            })
+        }
+    </script> -->
 </body>
 </html>
+

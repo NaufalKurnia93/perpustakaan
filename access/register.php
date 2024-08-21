@@ -1,4 +1,6 @@
 <?php
+include_once "database/koneksi.php";
+include_once "database/class/access.php";
 
 $pdo = dataBase::connect();
 $user = Access::getInstance($pdo);
@@ -15,12 +17,13 @@ if (isset($_POST["buat"])) {
 	$no_telp = htmlspecialchars($_POST["no_telp"]);
 	$password = htmlspecialchars($_POST["password"]);
 
-
 	if ($user->new_user($nama, $username, $email, $no_telp, $password)) {
-		$success = true;
-	} else {
-		$error = $user->getError();
-	}
+        // Redirect ke halaman lain jika registrasi berhasil
+        header("Location: index.php?access=login"); // Ganti 'success.php' dengan halaman tujuan Anda
+        exit();
+    } else {
+        $error = $user->getError();
+    }
 }
 
 ?>
@@ -56,7 +59,7 @@ if (isset($_POST["buat"])) {
 
 							<div class="form-group">
 								<label>Email</label>
-								<input type="harga" value="" class="form-control" name="email" required>
+								<input type="email" value="" class="form-control" name="email" required>
 							</div>
 
 							<div class="form-group">

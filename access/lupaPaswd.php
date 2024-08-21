@@ -1,76 +1,94 @@
 <?php
-    // session start
-    if(!empty($_SESSION)){ }else{ session_start(); }
-    //session
-	if(!empty($_SESSION['ADMIN'])){ }else{ header('location:login.php'); }
-    // panggil file
-    require 'proses/panggil.php';
-    
-    // tampilkan form edit
-    $idGet = strip_tags($_GET['id']);
-    $hasil = $proses->tampil_data_id('tbl_user','id_login',$idGet);
+include_once "database/koneksi.php";
+include_once "database/class/access.php";
+
+$pdo = dataBase::connect();
+$user = Access::getInstance($pdo); // Mendapatkan instance dari kelas Access
+
+if (isset($_POST["reset"])) {
+  $email = htmlspecialchars($_POST["email"]);
+  $password = htmlspecialchars($_POST["password"]);
+
+  // Menggunakan method lupaPaswd untuk mengubah password
+  if ($user->lupaPaswd($email, $password)) {
+    header("Location: index.php?access=login");
+  } else {
+    echo "<script>alert('Gagal mereset password. Periksa kembali email yang dimasukkan.')</script>";
+  }
+}
 ?>
 
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Edit Pengguna</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	</head>
-    <body style="background:#586df5;">
-		<div class="container">
-			<br/>
-            <span style="color:#fff";>Selamat Datang, <?php echo $sesi['nama_pengguna'];?></span>
-			<div class="float-right">	
-				<a href="index.php" class="btn btn-success btn-md" style="margin-right:1pc;"><span class="fa fa-home"></span> Kembali</a> 
-				<a href="logout.php" class="btn btn-danger btn-md float-right"><span class="fa fa-sign-out"></span> Logout</a>
-			</div>		
-			<br/><br/><br/>
-			<div class="row">
-				<div class="col-sm-3"></div>
-				<div class="col-lg-6">
-					<br/>
-					<div class="card">
-						<div class="card-header">
-						<h4 class="card-title">Edit Pengguna - <?php echo $hasil['nama_pengguna'];?></h4>
-						</div>
-						<div class="card-body">
-						<!-- form berfungsi mengirimkan data input 
-						dengan method post ke proses crud dengan paramater get aksi edit -->
-							<form action="proses/crud.php?aksi=edit" method="POST">
-								<div class="form-group">
-									<label>Nama </label>
-									<input type="text" value="<?php echo $hasil['nama_pengguna'];?>" class="form-control" name="nama" required>
-								</div>
-								<div class="form-group">
-									<label>Telepon</label>
-									<input type="number" value="<?php echo $hasil['telepon'];?>" class="form-control" name="telepon" required>
-								</div>
-								<div class="form-group">
-									<label>Email</label>
-									<input type="harga" value="<?php echo $hasil['email'];?>" class="form-control" name="email" required>
-								</div>
-								<div class="form-group">
-									<label>Alamat</label>
-									<textarea name="alamat" class="form-control" required><?php echo $hasil['alamat'];?></textarea>
-								</div>
-								<div class="form-group">
-									<label>Username</label>
-									<input type="text" value="<?php echo $hasil['username'];?>" class="form-control" name="user" required>
-								</div>
-								<div class="form-group">
-									<label>Password</label>
-									<input type="password" value="" placeholder="ubah password" class="form-control" name="pass" required>
-									<input type="hidden" value="<?php echo $hasil['id_login'];?>" class="form-control" name="id_login" required>
-								</div>
-								<button class="btn btn-primary btn-md" name="create"><i class="fa fa-edit"> </i> Edit Data</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-3"></div>
-			</div>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset</title>
+
+
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Forgot Password</title>
+  <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="assets/modules/bootstrap-social/bootstrap-social.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+</head>
+
+
+<body class="bg-primary bg-gradient">
+  <div class="container mt-3 p-5">
+    <div class="row min-vh-100 justify-content-center align-items-center">
+      <div class="col-lg-5">
+        <div class="card shadow">
+          <div class="card-header">
+            <h5 class="fw-bold ">Reset Pasword</h5>
+          </div>
+          <div class="card-body p-5">
+            <form action="" method="POST">
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="text" class="form-control" name="email" tabindex="1" autocomplete="off" required
+                  autofocus>
+                <div class="invalid-feedback">
+                  masukkan alamat email
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="password" class="col-form-label">New Password</label>
+                <input type="password" name="password" class="form-control" id="password"
+                  placeholder="Enter new password" required>
+              </div>
+
+              <div class="d-grid">
+                <input type="submit" class="btn btn-primary" name="reset" value="Reset Password">
+              </div>
+              
+            </form>
+          </div>
+          <a href="index.php?access=login" type="submit"  class="btn mb-3 mx-4 btn-info">kembali</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/modules/jquery.min.js"></script>
+  <script src="assets/modules/popper.js"></script>
+  <script src="assets/modules/tooltip.js"></script>
+  <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+  <script src="assets/modules/moment.min.js"></script>
+  <script src="assets/js/stisla.js"></script>
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+</body>
+
+</html>
+</body>
 </html>

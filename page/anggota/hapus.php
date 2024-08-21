@@ -11,10 +11,11 @@
  $result = $anggota->hapus($id_anggota);
  dataBase::disconnect();
  
- if ($result == true) {
-     echo "<script>window.location.href = 'index.php?page=anggota&cek=passed';</script>";
+ if ($result) {
+     echo "<script>window.location = 'index.php?page=anggota&cek=del';</script>";
  } else {
     echo "<script>window.location.href = 'index.php?page=anggota&cek=failed';</script>";
  }
  
  ?>
+

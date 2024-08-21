@@ -17,6 +17,9 @@ if ($user->cekLogin() == false) { //belum login
         case 'register':
             include 'access/register.php';
             break;
+            case 'forget':
+                include 'access/lupaPaswd.php';
+                break;
         default:
             include('access/login.php');
             break;
@@ -25,55 +28,76 @@ if ($user->cekLogin() == false) { //belum login
 } else {
     ?>
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" style="height: 100%;">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SISTEM PERPUSTAKAAN</title>
         <?php include 'layout/stylecss.php'; ?>
+
+        <style>
+          
+
+           
+        </style>
     </head>
+
     <body>
-        <div class="app">
-            <?php include("layout/header.php"); include("layout/sidebar.php"); ?>
+        <div class="app" style="min-height: 100vh;">
+            <?php
+            include("layout/header.php");
+            include("layout/sidebar.php");
+            ?>
+
             <div class="main-content">
-                <section class="section">
-                    <?php
-                    $halaman_get = isset($_GET['page']) ? $_GET['page'] : "";
-                    switch ($halaman_get) {
-                        case 'anggota':
-                            include('page/anggota/default.php');
-                            break;
-                        case 'petugas':
-                            include('page/petugas/default.php');
-                            break;
-                        case 'penulis':
-                            include('page/penulis/default.php');
-                            break;
-                        case 'kategori':
-                            include('page/kategori/default.php');
-                            break;
-                        case 'buku':
-                            include('page/buku/default.php');
-                            break;
-                        case 'peminjaman':
-                            include('page/peminjaman/default.php');
-                            break;
-                        case 'peminjaman_detail':
-                            include('page/peminjaman_detail/default.php');
-                            break;
-                        case 'logout':
-                            include 'access/aksesLogout.php';
-                            break;
-                        default:
-                            include('page/dashboard/index.php');
-                            break;
-                    }
-                    ?>
+                <section class=" section">
+                <?php
+                $halaman_get = isset($_GET['page']) ? $_GET['page'] : "";
+                switch ($halaman_get) {
+                    case 'anggota':
+                        include('page/anggota/default.php');
+                        break;
+                    case 'petugas':
+                        include('page/petugas/default.php');
+                        break;
+                    case 'penulis':
+                        include('page/penulis/default.php');
+                        break;
+                    case 'kategori':
+                        include('page/kategori/default.php');
+                        break;
+                    case 'buku':
+                        include('page/buku/default.php');
+                        break;
+                    case 'peminjaman':
+                        include('page/peminjaman/default.php');
+                        break;
+                    case 'peminjaman_detail':
+                        include('page/peminjaman_detail/default.php');
+                        break;
+                    case 'logout':
+                        include 'access/aksesLogout.php';
+                        break;
+                    default:
+                        include('page/dashboard/index.php');
+                        break;
+                }
+                ?>
                 </section>
             </div>
         </div>
-        <?php include 'layout/footer.php'; include("layout/stylejs.php"); ?>
+        <?php
+        include 'layout/footer.php';
+     
+        ?>
+
+<?php
+       
+        include "layout/stylejs.php";
+        ?>
     </body>
+
     </html>
     <?php
 }

@@ -12,7 +12,7 @@ $result = $kategori->hapus($id_kategori);
 dataBase::disconnect();
 
 if ($result == true) {
-    echo "<script>window.location.href = 'index.php?page=kategori&cek=passed';</script>";
+    echo "<script>window.location.href = 'index.php?page=kategori&cek=del';</script>";
 } else {
    echo "<script>window.location.href = 'index.php?page=kategori&cek=failed';</script>";
 }

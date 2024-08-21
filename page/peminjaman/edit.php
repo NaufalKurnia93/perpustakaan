@@ -18,7 +18,7 @@ if (isset($_POST['save'])) {
 
   // Coba edit data buku dan cek hasilnya
   if ($peminjaman->edit($id_peminjaman, $id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas)) {
-    header("location: index.php?page=peminjaman&cek=up");
+    header("location: index.php?page=peminjaman&cek=updt");
     // exit();
   } else {
     echo "maaf data gagal di simpan";

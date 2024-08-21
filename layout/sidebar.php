@@ -1,10 +1,17 @@
 <div class="main-sidebar sidebar-style-2" style="background-color: #f0f4f8;">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <h5 class="mt-4">Perpustakaan Umum</h5>
+            <h5 class="mt-4">PerpustakanX </h5>
         </div>
         <ul class="sidebar-menu">
             <h6 class="menu-header text-dark">Menu</h6>
+          
+            <li class="nav-item active ">
+                <a class="nav-link" href="index.php?">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider d-none d-md-block">
             <li>
                 <a class="nav-link text-dark" href="index.php?page=anggota">
                     <i class="fas fa-tachometer-alt"></i> <span>Anggota</span>

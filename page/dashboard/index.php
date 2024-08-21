@@ -39,7 +39,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+ <!-- style content -->
   <style>
         .main-style-2 {
             padding-left: 100px;
@@ -47,7 +47,7 @@ $jumlah_kategori = $resultkategori->fetchColumn();
 
         .row-style2 {
             margin-left: -60px;
-            margin-right: -60px;
+            margin-right: -20px;
         }
 
     </style>
@@ -55,17 +55,17 @@ $jumlah_kategori = $resultkategori->fetchColumn();
 <body>
   <!-- Main Content -->
   <div class="main-content main-style-2">
-    <section class="section">
+    <section class="section" style="margin-top: -5rem;">
       <div class="section-header">
         <h1>Dashboard</h1>
       </div>
 
-      <div class="section-body">
+      <div class="section-body text-dark">
 
-        <div class="row justify-content-center row-style2">
+        <div class="row justify-content-center">
           <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-primary">
-              <div class="inner">
+            <div class="small-box bg-primary p-2">
+              <div class="inner text-center ">
                 <h4>Buku</h4>
                 <h2>
                   <?= $jumlah_buku ?>
@@ -80,8 +80,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-secondary">
-              <div class="inner">
+            <div class="small-box bg-secondary p-2">
+              <div class="inner text-center">
                 <h4>Anggota</h4>
                 <h2>
                   <?= $jumlah_anggota ?>
@@ -96,8 +96,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-success">
-              <div class="inner">
+            <div class="small-box bg-success p-2">
+              <div class="inner text-center">
                 <h4>Peminjaman</h4>
                 <h2>
                   <?= $jumlah_peminjaman ?>
@@ -112,8 +112,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-info">
-              <div class="inner">
+            <div class="small-box bg-info p-2">
+              <div class="inner text-center">
                 <h4>Penulis</h4>
                 <h2>
                   <?= $jumlah_penulis ?>
@@ -128,8 +128,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-warning">
-              <div class="inner">
+            <div class="small-box bg-warning p-2">
+              <div class="inner text-center">
                 <h4>Petugas</h4>
                 <h2>
                   <?= $jumlah_petugas ?>
@@ -144,8 +144,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-2">
-            <div class="small-box bg-danger">
-              <div class="inner">
+            <div class="small-box bg-danger p-2">
+              <div class="inner text-center">
                 <h4>Peminjaman Detail</h4>
                 <h2>
                   <?= $jumlah_peminjaman_detail ?>
@@ -160,8 +160,8 @@ $jumlah_kategori = $resultkategori->fetchColumn();
           </div>
 
           <div class="col-md-6 col-lg-4 col-12 mb-0">
-            <div class="small-box bg-secondary">
-              <div class="inner">
+            <div class="small-box bg-secondary p-2">
+              <div class="inner text-center">
                 <h4>Kategori</h4>
                 <h2>
                   <?= $jumlah_kategori ?>

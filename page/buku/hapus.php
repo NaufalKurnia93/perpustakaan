@@ -12,7 +12,7 @@ $result = $buku->hapus($id_buku);
 dataBase::disconnect();
 
 if ($result == true) {
-    echo "<script>window.location.href = 'index.php?page=buku&cek=passed';</script>";
+    echo "<script>window.location.href = 'index.php?page=buku&cek=del';</script>";
 } else {
    echo "<script>window.location.href = 'index.php?page=buku&cek=failed';</script>";
 }

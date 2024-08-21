@@ -15,7 +15,7 @@ if (isset($_POST['save'])) {
 
     // Coba edit data kategori dan cek hasilnya
     if ($kategori->edit($id_kategori, $nama_kategori)) {
-        header("location: index.php?kategori&cek=up");
+        header("location: index.php?kategori&cek=updt");
         exit();
     } else {
         echo "maaf data gagal di simpan";
