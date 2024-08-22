@@ -26,13 +26,36 @@
       timer: 1500
     });
 
-    <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "del") { ?>
-        Swal.fire({
-            icon: "success",
-            title: 'Items telah dihapus!',
-            showConfirmButton: false,
-            timer: 1500
-        });
+  <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "del") { ?>
+    Swal.fire({
+      icon: "success",
+      title: 'Items telah dihapus!',
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+  <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "passed") { ?>
+    Swal.fire({
+      icon: 'success',
+      title: 'login berhasil',
+      text: 'selamat datang dan selamat mengomentari.'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = 'index.php?access=login.php';
+      }
+    });
+
+
+  <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "rawrIzin") { ?>
+    Swal.fire({
+      icon: "error",
+      title: 'Tidak izin akses',
+      text: 'Anda Tidak Memiliki Izin Untuk Halaman Ini!',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+  
 
     <?php
   }

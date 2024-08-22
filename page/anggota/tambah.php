@@ -11,7 +11,7 @@ if (isset($_POST['save'])) {
 
 
     $result = $anggota->tambah($nama_anggota, $alamat, $no_telpon);
-
+    
     if ($result) {
         echo "<script>window.location = 'index.php?page=anggota&cek=add';</script>";
     } else {

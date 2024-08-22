@@ -16,7 +16,7 @@
       <div class="card-body ">
         <a href="index.php?page=petugas&act=create" class="btn btn-info mb-3">TAMBAH DATA</a>
 
-        <table class="table table-bordered table-hover table-sm">
+        <table class="table table-striped table-bordered table-hover text-center" id="dataTables-example">
           <thead class="thead-light">
             <tr class="text-center">
               <th scope="col" class="font-weight-bold">No</th>
@@ -40,22 +40,39 @@
             $no = 1;
 
             foreach ($dataPetugas as $row) {
-            ?>
+              ?>
               <tr>
-                <td class="text-center"><?php echo $no++ ?></td>
-                <td><?php echo htmlspecialchars($row['nama_petugas']) ?></td>
-                <td><?php echo htmlspecialchars($row['jenis_kelamin']) ?></td>
-                <td><?php echo htmlspecialchars($row['alamat']) ?></td>
-                <td><?php echo htmlspecialchars($row['jabatan']) ?></td>
-                <td><?php echo htmlspecialchars($row['shift']) ?></td>
+                <td class="text-center">
+                  <?php echo $no++ ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['nama_petugas']) ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['jenis_kelamin']) ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['alamat']) ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['jabatan']) ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['shift']) ?>
+                </td>
                 <td class="text-center">
                   <a href="index.php?page=petugas&act=update&id_petugas=<?php echo $row['id_petugas'] ?>"
                     class="btn btn-info btn-sm">Edit</a>
-                  <a href="index.php?page=petugas&act=delete&id_petugas=<?php echo $row['id_petugas'] ?>"
-                    class="btn btn-danger btn-sm">Hapus</a>
+
+                  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') { ?>
+                    <a href="index.php?page=petugas&act=delete&id_petugas=<?php echo $row['id_petugas'] ?>"
+                      class="btn btn-danger btn-sm">Hapus</a>
+                    <?php
+                  }
+                  ?>
                 </td>
               </tr>
-            <?php
+              <?php
             }
             dataBase::disconnect();
             ?>

@@ -92,6 +92,13 @@ if ($user->cekLogin() == false) { //belum login
      
         ?>
 
+<!-- Script untuk menginisialisasi DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('table').DataTable(); // Menginisialisasi DataTables untuk semua tabel di halaman
+        });
+    </script>
+
 <?php
        
         include "layout/stylejs.php";

@@ -1,5 +1,13 @@
 <?php
 
+// Mengecek apakah pengguna memiliki role yang diizinkan untuk menghapus data
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
+    // Jika bukan super_admin, redirect ke halaman anggota dengan pesan error
+    echo "<script>window.location = 'index.php?page=anggota&cek=rawrIzin';</script>";
+    exit; // Menghentikan eksekusi script
+}
+
+
  if(empty($_GET['id_anggota'])) {
   header("Location: index.php");
  } 
@@ -12,7 +20,7 @@
  dataBase::disconnect();
  
  if ($result) {
-     echo "<script>window.location = 'index.php?page=anggota&cek=del';</script>";
+     echo "<script>window.location = 'index.php?page=anggota&cek=del';</scry>";
  } else {
     echo "<script>window.location.href = 'index.php?page=anggota&cek=failed';</script>";
  }

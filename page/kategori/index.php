@@ -16,7 +16,7 @@
       <div class="card-body">
         <a href="index.php?page=kategori&act=create" class="btn btn-info mb-3">TAMBAH DATA</a>
 
-        <table class="table table-bordered table-hover table-sm">
+        <table class="table table-striped table-bordered table-hover text-center" id="dataTables-example">
           <thead class="thead-light">
             <tr class="text-center">
               <th scope="col" class="font-weight-bold">No</th>
@@ -36,16 +36,27 @@
             $no = 1;
 
             foreach ($dataKategori as $row) {
-            ?>
+              ?>
               <tr>
-                <td class="text-center"><?php echo $no++ ?></td>
-                <td><?php echo htmlspecialchars($row['nama_kategori']); ?></td>
                 <td class="text-center">
-                  <a href="index.php?page=kategori&act=update&id_kategori=<?php echo $row['id_kategori'] ?>" class="btn btn-info btn-sm">Edit</a>
-                  <a href="index.php?page=kategori&act=delete&id_kategori=<?php echo $row['id_kategori'] ?>" class="btn btn-danger btn-sm">Hapus</a>
+                  <?php echo $no++ ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($row['nama_kategori']); ?>
+                </td>
+                <td class="text-center">
+                  <a href="index.php?page=kategori&act=update&id_kategori=<?php echo $row['id_kategori'] ?>"
+                    class="btn btn-info btn-sm">Edit</a>
+
+                  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') { ?>
+                    <a href="index.php?page=kategori&act=delete&id_kategori=<?php echo $row['id_kategori'] ?>"
+                      class="btn btn-danger btn-sm">Hapus</a>
+                    <?php
+                  }
+                  ?>
                 </td>
               </tr>
-            <?php
+              <?php
             }
             dataBase::disconnect();
             ?>

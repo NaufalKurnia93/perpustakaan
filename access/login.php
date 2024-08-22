@@ -11,14 +11,14 @@ if (isset($_POST['login'])) {
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);
 
-    // Memeriksa apakah nama pengguna dan kata sandi benar
     if ($user->login($username, $password)) {
-        header('Location: index.php');
-        exit;
+        header("Location: index.php?access=login&cek=passed");
+        exit();
     } else {
-        // login gagal
-        $error = $user->getError();
+        header("Location: index.php?access=login&cek=rawr3");
+        exit();
     }
+
 }
 ?>
 
@@ -39,6 +39,33 @@ if (isset($_POST['login'])) {
 <body class="bg-primary">
     <div class="container mt-5">
         <section class="section">
+            <?php if (isset($_GET['cek'])): ?>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        <?php
+                        if ($_GET['cek'] == "rawr3") {
+                            ?>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'username atau Password salah',
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        <?php } elseif ($_GET['cek'] == "logout") { ?>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Logout Berhasil',
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+
+                            <?php
+                          }
+                        ?>
+                    });
+                </script>
+            <?php endif; ?>
             <div class="row ">
                 <div class="col-sm-5 offset-sm-4 ">
 
@@ -67,11 +94,11 @@ if (isset($_POST['login'])) {
                                     <label>Password</label>
                                     <input name="password" class="form-control" placeholder="******" type="password"
                                         required="required" autocomplete="off">
-                                        <div class="float-right">
-                                            <a href="index.php?access=forget" class="text-small">
-                                                Forgot Password?
-                                            </a>
-                                        </div>
+                                    <div class="float-right">
+                                        <a href="index.php?access=forget" class="text-small">
+                                            Forgot Password?
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

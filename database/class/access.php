@@ -23,20 +23,21 @@ class Access
     }
 
     // Menambahkan data pengguna baru
-    public function new_user($nama, $username, $email, $no_telp, $password)
+    public function new_user($nama, $username, $email, $no_telp, $password, $role)
     {
         try {
             $this->cekUsernameDanEmail($username, $email); // Mengecek apakah username dan email sudah ada
             $hashPassword = password_hash($password, PASSWORD_DEFAULT); // Mengamankan password
             // Menyimpan data pengguna baru ke database
-            $stmt = $this->db->prepare("INSERT INTO users (nama, username, email, no_telp, password) 
-                                        VALUES(:nama, :username ,:email,  :no_telp, :password)");
+            $stmt = $this->db->prepare("INSERT INTO users (nama, username, email, no_telp, password, role) 
+                                        VALUES(:nama, :username ,:email,  :no_telp, :password, :role)");
 
             $stmt->bindParam(":nama", $nama);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":email", $email);
             $stmt->bindParam(":no_telp", $no_telp);
             $stmt->bindParam(":password", $hashPassword);
+            $stmt->bindParam(":role", $role);
             $stmt->execute();
             return true; // Berhasil
         } catch (PDOException $e) {
@@ -59,15 +60,17 @@ class Access
             $stmt->execute();
             $data = $stmt->fetch();
 
-            if ($stmt->rowCount() > 0) { // Jika data ditemukan
-                 // Memeriksa password apakah sama yang dimasukkan
+            if ($stmt->rowCount() > 0) {
                 if (password_verify($password, $data["password"])) {
-                    $_SESSION['user_id'] = $data['id']; // Menyimpan ID 
-                    return true; // Berhasil
+                    $_SESSION['user_id'] = $data['id'];
+                    $_SESSION['role'] = $data['role']; // Menyimpan role pengguna
+                    return true;
                 } else {
-                    $this->error = 'Username Atau Password Salah';
-                    return false; // Gagal
+                    $this->error = 'Username atau Password Salah';
+                    return false;
                 }
+
+        
             } else {
                 $this->error = 'Username Atau Password Salah';
                 return false; // Gagal
@@ -107,6 +110,7 @@ class Access
     public function loGout()
     {
         unset($_SESSION['user_id']);
+        unset($_SESSION['role']);
         session_destroy(); // Menghentikan  dan menghapus sesi
         return true; // Berhasil
     }
@@ -123,7 +127,7 @@ class Access
                 $this->error = " Username dan email sudah ada";
                  return true;
             } else {
-                echo "Username dan email tidak ditemukan."; // Username dan email belum ada
+                // echo "Username dan email tidak ditemukan."; // Username dan email belum ada
                 return false;
             }
         } catch (PDOException $e) {

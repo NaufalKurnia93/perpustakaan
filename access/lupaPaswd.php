@@ -8,12 +8,11 @@ $user = Access::getInstance($pdo); // Mendapatkan instance dari kelas Access
 if (isset($_POST["reset"])) {
   $email = htmlspecialchars($_POST["email"]);
   $password = htmlspecialchars($_POST["password"]);
-
-  // Menggunakan method lupaPaswd untuk mengubah password
+ 
   if ($user->lupaPaswd($email, $password)) {
-    header("Location: index.php?access=login");
+    echo "<script>window.location = 'index.php?access=forget&cek=pass';</script>";
   } else {
-    echo "<script>alert('Gagal mereset password. Periksa kembali email yang dimasukkan.')</script>";
+    echo "<script>window.location = 'index.php?access=forget&cek=rawr2';</script>";
   }
 }
 ?>
@@ -35,7 +34,35 @@ if (isset($_POST["reset"])) {
   <link rel="stylesheet" href="assets/modules/bootstrap-social/bootstrap-social.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
+  <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if (isset($_GET['cek'])) { ?>
+                switch ("<?php echo $_GET['cek']; ?>") {
+                    case "pass":
+                        Swal.fire({
+                            icon: "success",
+                            title: 'Berhasil Mengganti Password!',
+                            text: 'jangan lupa pasword mu seperti melupakan dia.'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'index.php?auth=login.php';
+                            }
+                        });
+                        break;
+                    case "rawr2":
+                        Swal.fire({
+                            icon: "error",
+                            title: 'terjadi eror mohon periksa kembali',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        break;
+                }
+            <?php } ?>
+        });
+    </script>
+
 </head>
 
 
@@ -68,10 +95,10 @@ if (isset($_POST["reset"])) {
               <div class="d-grid">
                 <input type="submit" class="btn btn-primary" name="reset" value="Reset Password">
               </div>
-              
+
             </form>
           </div>
-          <a href="index.php?access=login" type="submit"  class="btn mb-3 mx-4 btn-info">kembali</a>
+          <a href="index.php?access=login" type="submit" class="btn mb-3 mx-4 btn-info">kembali</a>
         </div>
       </div>
     </div>
@@ -91,4 +118,5 @@ if (isset($_POST["reset"])) {
 
 </html>
 </body>
+
 </html>
