@@ -1,6 +1,15 @@
 <?php
-// include_once 'database/koneksi.php';
-// $pdo = dataBase::connect();
+
+// Include file class
+include_once 'database/koneksi.php';
+include_once 'database/class/dashboard.php';
+
+// Inisialisasi objek dan mendapatkan koneksi database
+$koneksi = dataBase::connect(); // Gunakan metode statis untuk mendapatkan koneksi
+$report = new Report($koneksi); // Inisialisasi objek Report dengan koneksi
+
+// Ambil data untuk chart
+$chartData = $report->peminjaman_anggotaforchart();
 
 // Query SQL dan kode lainnya untuk menghitung jumlah table data yang ada
 $sqlAnggota = 'SELECT COUNT(*) FROM anggota';
@@ -24,38 +33,42 @@ $resultPetugas = $pdo->query($sqlPetugas);
 $jumlah_petugas = $resultPetugas->fetchColumn();
 
 
-$sqlpeminjaman_detail = 'SELECT COUNT(*) FROM peminjaman_detail';
-$resultpeminjaman_detail = $pdo->query($sqlpeminjaman_detail);
-$jumlah_peminjaman_detail = $resultpeminjaman_detail->fetchColumn();
+// $sqlpeminjaman_detail = 'SELECT COUNT(*) FROM peminjaman_detail';
+// $resultpeminjaman_detail = $pdo->query($sqlpeminjaman_detail);
+// $jumlah_peminjaman_detail = $resultpeminjaman_detail->fetchColumn();
 
 
-$sqlkategori = 'SELECT COUNT(*) FROM kategori';
-$resultkategori = $pdo->query($sqlkategori);
-$jumlah_kategori = $resultkategori->fetchColumn();
+// $sqlkategori = 'SELECT COUNT(*) FROM kategori';
+// $resultkategori = $pdo->query($sqlkategori);
+// $jumlah_kategori = $resultkategori->fetchColumn();
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- style content -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
-        .main-style-2 {
-            padding-left: 100px;
-        }
+    .main-style-2 {
+      padding-left: 100px;
+    }
 
-        .row-style2 {
-            margin-left: -60px;
-            margin-right: -20px;
-        }
-
-    </style>
+    .row-style2 {
+      margin-left: -60px;
+      margin-right: -20px;
+    }
+  </style>
 </head>
+
 <body>
   <!-- Main Content -->
-  <div class="main-content main-style-2">
-    <section class="section" style="margin-top: -5rem;">
+  <div class="container-fluid  ">
+    <section class="section ">
       <div class="section-header">
         <h1>Dashboard</h1>
       </div>
@@ -63,123 +76,126 @@ $jumlah_kategori = $resultkategori->fetchColumn();
       <div class="section-body text-dark">
 
         <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-primary p-2">
-              <div class="inner text-center ">
-                <h4>Buku</h4>
-                <h2>
-                  <?= $jumlah_buku ?>
-                </h2>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+              <div class="card-icon bg-primary">
+                <i class="fa-solid  fa-user fa-beat-fade h3"></i>
               </div>
-              <div class="icon">
-                <i class="fas fa-book"></i>
-              </div>
-              <a href="index.php?page=buku" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-secondary p-2">
-              <div class="inner text-center">
-                <h4>Anggota</h4>
-                <h2>
+              <div class="card-wrap">
+                <div class="card-header">
+                  <h4>Jumlah Anggota</h4>
+                </div>
+                <div class="card-body">
                   <?= $jumlah_anggota ?>
-                </h2>
+                </div>
               </div>
-              <div class="icon">
-                <i class="fas fa-user"></i>
-              </div>
-              <a href="index.php?page=anggota" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-success p-2">
-              <div class="inner text-center">
-                <h4>Peminjaman</h4>
-                <h2>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+              <div class="card-icon bg-success">
+                <i class="fa-solid fa-handshake fa-beat-fade h3"></i>
+              </div>
+              <div class="card-wrap">
+                <div class="card-header">
+                  <h4>Total peminjaman</h4>
+                </div>
+                <div class="card-body">
                   <?= $jumlah_peminjaman ?>
-                </h2>
+                </div>
               </div>
-              <div class="icon">
-                <i class="fas fa-bookmark"></i>
-              </div>
-              <a href="index.php?page=peminjaman" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-info p-2">
-              <div class="inner text-center">
-                <h4>Penulis</h4>
-                <h2>
-                  <?= $jumlah_penulis ?>
-                </h2>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+              <div class="card-icon bg-danger">
+                <i class="fa fa-book fa-beat-fade h3"></i>
               </div>
-              <div class="icon">
-                <i class="fas fa-user-edit"></i>
+              <div class="card-wrap">
+                <div class="card-header">
+                  <h4>Total Buku</h4>
+                </div>
+                <div class="card-body">
+                  <?= $jumlah_buku ?>
+                </div>
               </div>
-              <a href="index.php?page=penulis" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-md-6 col-lg-4 col-12 mb-3">
-            <div class="small-box bg-warning p-2">
-              <div class="inner text-center">
-                <h4>Petugas</h4>
-                <h2>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+              <div class="card-icon bg-warning">
+                <i class="fa-solid fa-users fa-beat-fade h3"></i>
+              </div>
+              <div class="card-wrap">
+                <div class="card-header">
+                  <h4>jumlah petugas</h4>
+                </div>
+                <div class="card-body">
                   <?= $jumlah_petugas ?>
-                </h2>
+                </div>
               </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="index.php?page=petugas" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-md-6 col-lg-4 col-12 mb-2">
-            <div class="small-box bg-danger p-2">
-              <div class="inner text-center">
-                <h4>Peminjaman Detail</h4>
-                <h2>
-                  <?= $jumlah_peminjaman_detail ?>
-                </h2>
-              </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="index.php?page=peminjaman_detail" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 col-12 mb-0">
-            <div class="small-box bg-secondary p-2">
-              <div class="inner text-center">
-                <h4>Kategori</h4>
-                <h2>
-                  <?= $jumlah_kategori ?>
-                </h2>
-              </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="index.php?page=kategori" class="small-box-footer text-dark">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
         </div>
+
+
+
+        <div class="card">
+          <div class="card-header">
+            <h4>Report Sistem</h4>
+          </div>
+          <!-- <div class="card-body">
+                <canvas id="myChart2"  height="180"></canvas>
+              </div> -->
+          <div class="card-body">
+            <canvas id="myCharts"></canvas>
+            <div class="statistic-details mt-1">
+            </div>
+          </div>
+
+        </div>
+
+
       </div>
     </section>
   </div>
+ 
 
+
+  <script>
+    const labels = 
+    <?= json_encode($chartData['labels']); ?>;
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Jumlah',
+          backgroundColor: 'rgb(75, 192, 192)',
+          borderColor: 'Blue',
+          data:  <?= json_encode($chartData['data']); ?>, 
+          borderWidth: 1
+        }
+      ]
+
+
+    };
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {}
+    };
+
+
+    var myChart = new Chart(
+      document.getElementById('myCharts'),
+      config
+    );
+  </script>
 </body>
-</html>
 
-  
+</html>

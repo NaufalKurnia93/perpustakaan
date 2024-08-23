@@ -7,8 +7,8 @@
 
 </head>
 <body>
-  <e class="container mt-5">
-    <e class="card">
+  <div class="container mt-5">
+    <div class="card">
       <div class="card-header text-center">
         <h4 class="mb-0">Daftar Anggota</h4>
       </div>
