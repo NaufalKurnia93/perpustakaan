@@ -148,10 +148,7 @@ $jumlah_petugas = $resultPetugas->fetchColumn();
           <div class="card-header">
             <h4>Report Sistem</h4>
           </div>
-          <!-- <div class="card-body">
-                <canvas id="myChart2"  height="180"></canvas>
-              </div> -->
-          <div class="card-body">
+          <div class="card-body p-3t">
             <canvas id="myCharts"></canvas>
             <div class="statistic-details mt-1">
             </div>

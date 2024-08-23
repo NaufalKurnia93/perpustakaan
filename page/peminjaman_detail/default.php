@@ -22,7 +22,7 @@ switch ($act) {
         break;
 
     default:
-        include('index.php');
+        include('detail.php');
         break;
 }
 
