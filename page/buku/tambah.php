@@ -11,8 +11,8 @@ if (isset($_POST['save'])) {
     $penerbit = htmlspecialchars($_POST['penerbit']);
     $tahun_terbit = htmlspecialchars($_POST['tahun_terbit']);
 
-
-    $result = $buku->tambah($judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit);
+    $id_buku_baru = $buku->generateIdBuku();
+    $result = $buku->tambah($id_buku_baru, $judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit);
 
     if ($result) {
         echo "<script>window.location.href = 'index.php?page=buku&cek=add';</script>";

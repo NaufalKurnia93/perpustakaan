@@ -21,10 +21,11 @@
 
     //menambah kan data play
 
-public function tambah($judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit) {
+public function tambah($id_buku,$judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit) {
     try {
-        $stmt = $this->db->prepare("INSERT INTO buku (judul, id_kategori, id_penulis, penerbit, tahun_terbit) VALUES (:judul, :id_kategori, :id_penulis, :penerbit, :tahun_terbit)");
+        $stmt = $this->db->prepare("INSERT INTO buku (id_buku,judul, id_kategori, id_penulis, penerbit, tahun_terbit) VALUES (:id_buku, :judul, :id_kategori, :id_penulis, :penerbit, :tahun_terbit)");
 
+        $stmt->bindParam(":id_buku", $id_buku);
     $stmt->bindParam(":judul", $judul);
     $stmt->bindParam(":id_kategori", $id_kategori);
     $stmt->bindParam(":id_penulis", $id_penulis);
@@ -49,41 +50,17 @@ public function tambah($judul, $id_kategori, $id_penulis, $penerbit, $tahun_terb
         }
     }
 
-    public function generateNewID()
-    {
-        try {
-            // Query untuk mendapatkan ID buku terbesar
-            $stmt = $this->db->prepare("SELECT MAX(id_buku) as idTerbesar FROM buku");
-            $stmt->execute();
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            $idBuku = $data['idTerbesar'];
-            
-            if ($idBuku) {
-                // Ambil nomor urut dari ID buku terbesar
-                $urutan = (int) substr($idBuku, 4); // Ambil nomor setelah 'book'
-                $urutan++;
-            } else {
-                // Jika belum ada ID, mulai dari 1
-                $urutan = 1;
-            }
-            
-            // Format ID baru dengan prefix 'book'
-            $prefix = "book";
-            $newID = $prefix . sprintf("%03d", $urutan);
-            
-            // Pastikan ID yang dihasilkan belum ada di database
-            while ($this->getID($newID)) {
-                $urutan++;
-                $newID = $prefix . sprintf("%03d", $urutan);
-            }
-            
-            return $newID;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
-    }
+    public function generateIdBuku()
+{
+    $stmt = $this->db->prepare("SELECT MAX(id_buku) as kodeTerbesar FROM buku");
+    $stmt->execute();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id_buku_besar = $data['kodeTerbesar'];
+    $urutan = (int) substr($id_buku_besar, 3, 3);
+    $urutan++;
+    $huruf = "BOOK";
+    return $huruf . sprintf("%03s", $urutan);
+}
     
 
     // memperbarui data play

@@ -21,10 +21,11 @@
 
     //menambah kan data play
 
-public function tambah($id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas) {
+public function tambah($id_peminjaman, $id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas) {
     try {
-        $stmt = $this->db->prepare("INSERT INTO peminjaman(id_anggota, tanggal_pinjam, tanggal_kembali, id_petugas) VALUES (:id_anggota, :tanggal_pinjam, :tanggal_kembali, :id_petugas)");
+        $stmt = $this->db->prepare("INSERT INTO peminjaman(id_peminjaman,id_anggota, tanggal_pinjam, tanggal_kembali, id_petugas) VALUES (:id_peminjaman, :id_anggota, :tanggal_pinjam, :tanggal_kembali, :id_petugas)");
 
+        $stmt->bindParam(":id_peminjaman", $id_peminjaman);
     $stmt->bindParam(":id_anggota", $id_anggota);
     $stmt->bindParam(":tanggal_pinjam", $tanggal_pinjam);
     $stmt->bindParam(":tanggal_kembali", $tanggal_kembali);
@@ -47,6 +48,18 @@ public function tambah($id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petug
             return false;
         }
     }
+
+public function generateIdPeminjaman()
+{
+    $stmt = $this->db->prepare("SELECT MAX(id_peminjaman) as kodeTerbesar FROM peminjaman");
+    $stmt->execute();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id_peminjaman_besar = $data['kodeTerbesar'];
+    $urutan = (int) substr($id_peminjaman_besar, 3, 3);
+    $urutan++;
+    $huruf = "PJM";
+    return $huruf . sprintf("%03s", $urutan);
+}
 
     // memperbarui data play
     public function edit($id_peminjaman, $id_anggota, $tanggal_pinjam, $tanggal_kembali,  $id_petugas) {

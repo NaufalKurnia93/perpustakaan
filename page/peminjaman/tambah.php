@@ -1,25 +1,31 @@
-<?php 
-
-$pdo = dataBase::connect(); //menyimpan objek pdo ke dalam variable $pdo
-
+<?php
+// Menghubungkan ke database
+$pdo = dataBase::connect();
 $peminjaman = Peminjaman::getInstance($pdo);
 
 if (isset($_POST['save'])) {
+    // Mengambil dan membersihkan input
     $id_anggota = htmlspecialchars($_POST['nama_anggota']);
     $tanggal_pinjam = htmlspecialchars($_POST['tanggal_pinjam']);
     $tanggal_kembali = htmlspecialchars($_POST['tanggal_kembali']);
     $id_petugas = htmlspecialchars($_POST['nama_petugas']);
 
+    // Menghasilkan ID peminjaman baru
+    $id_peminjaman_baru = $peminjaman->generateIdPeminjaman();
+    // var_dump($id_peminjaman_baru); // Debugging output
 
-$result = $peminjaman->tambah($id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas);
+    // Menambahkan data peminjaman
+    $result = $peminjaman->tambah($id_peminjaman_baru, $id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas);
 
+    // Mengecek hasil operasi
     if ($result) {
         echo "<script>window.location.href = 'index.php?page=peminjaman&cek=add';</script>";
     } else {
-        echo "peringatan! data gagal di tambahkan.";
+        echo "<div class='alert alert-danger'>Peringatan! Data gagal ditambahkan.</div>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,12 +63,12 @@ $result = $peminjaman->tambah($id_anggota, $tanggal_pinjam, $tanggal_kembali, $i
                         </div>
 
 
-                        <div class="form-group mb-2">
+                        <div class="form-group">
                             <label>Tanggal Pinjam</label>
                             <input type="date" name="tanggal_pinjam" placeholder="Masukkan  tanggal pinjam" class="form-control">
                         </div>
 
-                        <div class="form-group mb-2">
+                        <div class="form-group">
                             <label>tanggal kembali</label>
                             <input type="date" name="tanggal_kembali" placeholder="Masukkan tanggal kembali" class="form-control">
                         </div>
