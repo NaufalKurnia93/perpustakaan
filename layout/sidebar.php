@@ -39,7 +39,6 @@
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-exchange-alt"></i><span>Data Peminjam</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="index.php?page=peminjaman">Peminjaman</a></li>
-                    <li><a class="nav-link" href="index.php?page=peminjaman_detail">Detail</a></li>
                 </ul>
             </li>
 

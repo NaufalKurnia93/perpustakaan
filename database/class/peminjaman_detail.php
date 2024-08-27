@@ -21,20 +21,20 @@
 
     //menambah kan data play
 
-public function tambah($id_peminjaman, $id_buku, $denda) {
-    try {
-        $stmt = $this->db->prepare("INSERT INTO peminjaman_detail(id_peminjaman, id_buku, denda) VALUES (:id_peminjaman, :id_buku, :denda )");
+// public function tambah($id_peminjaman, $id_buku, $denda) {
+//     try {
+//         $stmt = $this->db->prepare("INSERT INTO peminjaman_detail(id_peminjaman, id_buku, denda) VALUES (:id_peminjaman, :id_buku, :denda )");
 
-    $stmt->bindParam(":id_peminjaman", $id_peminjaman);
-    $stmt->bindParam(":id_buku", $id_buku);
-    $stmt->bindParam(":denda", $denda);
-     $stmt->execute();
-    return true;
-} catch (PDOException $e) {
-    echo $e->getMessage();
-    return false;
-    }
-} 
+//     $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+//     $stmt->bindParam(":id_buku", $id_buku);
+//     $stmt->bindParam(":denda", $denda);
+//      $stmt->execute();
+//     return true;
+// } catch (PDOException $e) {
+//     echo $e->getMessage();
+//     return false;
+//     }
+// } 
     public function getID($id_peminjaman_detail) {
         try {
             $stmt = $this->db->prepare("SELECT * FROM peminjaman_detail WHERE id_peminjaman_detail= :id_peminjaman_detail");
@@ -98,33 +98,60 @@ public function tambah($id_peminjaman, $id_buku, $denda) {
     }
 
         // operasi get peminjaman
-        public function getPeminjaman()
-        {
-            try {
-                $stmt = $this->db->prepare("SELECT id_peminjaman FROM peminjaman");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $data;
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-                return false;
-            }
-        }
+    //     public function getPeminjaman($id_peminjaman_detail)
+    // {
+    //     try {
+    //         $stmt = $this->db->prepare("SELECT * FROM peminjaman, buku WHERE peminjaman.id_buku = buku.id_buku AND id_peminjaman_detail = :id_peminjaman_detail");
+    //         $stmt->bindParam(":id_peminjaman_detail", $id_peminjaman_detail);
+    //         $stmt->execute();
+    //         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     } catch (PDOException $e) {
+    //         echo $e->getMessage();
+    //     }
+    // }
+
+//     public function getPeminjaman()
+// {
+//     try {
+//         $stmt = $this->db->prepare("SELECT id_peminjaman FROM peminjaman");
+//         $stmt->execute();
+//         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     } catch (PDOException $e) {
+//         echo $e->getMessage();
+//         return [];
+//     }
+// }
+
+public function getPeminjaman($id_peminjaman)
+{
+    try {
+        $stmt = $this->db->prepare("SELECT * FROM peminjaman_detail, buku WHERE peminjaman_detail.id_id_buku = buku.id_buku AND id_peminjaman = :id_peminjaman");
+        $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+ 
 
     
     // operasi get buku
-    public function getBuku()
-    {
-        try {
-            $stmt = $this->db->prepare("SELECT id_buku, judul FROM buku");
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
+    public function getBuku($id_peminjaman)
+{
+    try {
+        $query = "SELECT * FROM buku WHERE id_buku NOT IN (SELECT id_buku FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_peminjaman', $id_peminjaman);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
     }
+}
+
 
 }
 

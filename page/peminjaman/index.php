@@ -60,16 +60,19 @@
                   <a href="index.php?page=peminjaman&act=update&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
                     class="btn btn-info btn-sm">Edit</a>
 
-                    <a href="index.php?page=peminjaman_detail&act=detail&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
+                    <a href="index.php?page=peminjaman&act=detail&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
                       class="btn btn-secondary btn-sm">detail</a>
+
+                      
 
 
                   <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') { ?>
-                    <a href=<?php echo $row['id_peminjaman'] ?>"
+                    <a href="index.php?page=peminjaman&act=delete&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
                       class="btn btn-danger btn-sm">Hapus</a>
                     <?php
                   }
                   ?>
+
                 </td>
               </tr>
               <?php

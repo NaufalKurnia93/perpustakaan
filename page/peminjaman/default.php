@@ -17,15 +17,17 @@ switch ($act) {
         include ('edit.php');
         break;
 
-        // case 'detail':
-        //     // echo "Including edit.php<br>"; // Debugging 
-        //     include ("index.php?page=peminjaman_detail");
-        //     break;
         
     case 'delete':
         include ('hapus.php');
         break;
-        
+
+    
+        case 'detail':
+            include ('detail.php');
+            break;
+            
+
     default:
         include ('index.php');
         break;

@@ -1,7 +1,6 @@
 <?php
 
 $pdo = dataBase::connect(); //menyimpan objek pdo ke dalam variable $pdo
-
 $buku = Buku::getInstance($pdo);
 
 if (isset($_POST['save'])) {

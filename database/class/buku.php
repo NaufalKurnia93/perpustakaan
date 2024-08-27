@@ -23,9 +23,9 @@
 
 public function tambah($id_buku,$judul, $id_kategori, $id_penulis, $penerbit, $tahun_terbit) {
     try {
-        $stmt = $this->db->prepare("INSERT INTO buku (id_buku,judul, id_kategori, id_penulis, penerbit, tahun_terbit) VALUES (:id_buku, :judul, :id_kategori, :id_penulis, :penerbit, :tahun_terbit)");
+        $stmt = $this->db->prepare("INSERT INTO buku (id_buku, judul, id_kategori, id_penulis, penerbit, tahun_terbit) VALUES (:id_buku, :judul, :id_kategori, :id_penulis, :penerbit, :tahun_terbit)");
 
-        $stmt->bindParam(":id_buku", $id_buku);
+    $stmt->bindParam(":id_buku", $id_buku);
     $stmt->bindParam(":judul", $judul);
     $stmt->bindParam(":id_kategori", $id_kategori);
     $stmt->bindParam(":id_penulis", $id_penulis);
@@ -56,9 +56,12 @@ public function tambah($id_buku,$judul, $id_kategori, $id_penulis, $penerbit, $t
     $stmt->execute();
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
     $id_buku_besar = $data['kodeTerbesar'];
-    $urutan = (int) substr($id_buku_besar, 3, 3);
+
+    // Mengambil bagian numerik dari ID buku dan mengkonversinya menjadi integer
+    $urutan = (int) substr($id_buku_besar, 4, 4); //posisi 4 dan panjang 4
     $urutan++;
-    $huruf = "BOOK";
+    $huruf = "BOk_";
+     // Format urutan dengan 3 digit, tambahkan 0 jika perlu, 
     return $huruf . sprintf("%03s", $urutan);
 }
     

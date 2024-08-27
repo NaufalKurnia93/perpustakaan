@@ -32,17 +32,9 @@ $sqlPetugas = 'SELECT COUNT(*) FROM petugas';
 $resultPetugas = $pdo->query($sqlPetugas);
 $jumlah_petugas = $resultPetugas->fetchColumn();
 
-
-// $sqlpeminjaman_detail = 'SELECT COUNT(*) FROM peminjaman_detail';
-// $resultpeminjaman_detail = $pdo->query($sqlpeminjaman_detail);
-// $jumlah_peminjaman_detail = $resultpeminjaman_detail->fetchColumn();
-
-
-// $sqlkategori = 'SELECT COUNT(*) FROM kategori';
-// $resultkategori = $pdo->query($sqlkategori);
-// $jumlah_kategori = $resultkategori->fetchColumn();
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -144,7 +136,7 @@ $jumlah_petugas = $resultPetugas->fetchColumn();
 
         <div class="card">
           <div class="card-header">
-            <h4>Report Sistem</h4>
+            <h4>Report Peminjaman </h4>
           </div>
           <div class="card-body p-3t">
             <canvas id="myCharts"></canvas>
