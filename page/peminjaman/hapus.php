@@ -10,20 +10,17 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
    echo "<script>window.location = 'index.php?page=anggota&cek=rawrIzin';</script>";
    exit; // Menghentikan eksekusi script
 } 
-
- //hapus Detail
-if (isset($_GET['id_buku']) && isset($_GET['id_peminjaman'])) {
-   $id_buku = $_GET['id_buku'];
+// Hapus Detail
+if (isset($_GET['act']) && $_GET['act'] == 'delete') {
    $id_peminjaman = $_GET['id_peminjaman'];
-   $result = $peminjaman->hapusDetail($id_buku, $id_peminjaman);
-   if ($result) {
-       echo "<script>window.location.href = 'index.php?page=peminjaman&act=detail'</script>";
-   } else {
-       echo "Gagal menghapus peminjaman detail";
-   }
+   $id_buku = $_GET['id_buku'];
+   
+   // Panggil metode untuk menghapus detail peminjaman
+   $peminjaman->hapusDetail($id_peminjaman, $id_buku);
+   
+   // Redirect kembali ke halaman peminjaman
+   header("Location: index.php?page=peminjaman&act=detail");
 }
-
-
 
 
 

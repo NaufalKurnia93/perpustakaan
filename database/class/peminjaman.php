@@ -48,8 +48,8 @@ class Peminjaman
         try {
             $stmt = $this->db->prepare("INSERT INTO peminjaman_detail(id_peminjaman, id_buku, denda) VALUES (:id_peminjaman, :id_buku, :denda)");
 
-            $stmt->bindParam(":id_peminjaman", $id_peminjaman, PDO::PARAM_INT);
-            $stmt->bindParam(":id_buku", $id_buku, PDO::PARAM_INT); // parameter tersebut adalah integer.
+            $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+            $stmt->bindParam(":id_buku", $id_buku); // parameter tersebut adalah STRING.
             $stmt->bindParam(":denda", $denda, PDO::PARAM_INT);
 
             $stmt->execute();
@@ -79,7 +79,7 @@ class Peminjaman
         try {
             $query = "SELECT * FROM buku WHERE id_buku NOT IN (SELECT id_buku FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman)";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id_peminjaman', $id_peminjaman, PDO::PARAM_INT);
+            $stmt->bindParam(':id_peminjaman', $id_peminjaman);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -92,7 +92,10 @@ class Peminjaman
     public function getDetail($id_peminjaman)
     {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM peminjaman_detail, buku WHERE peminjaman_detail.id_buku = buku.id_buku AND id_peminjaman = :id_peminjaman");
+            $stmt = $this->db->prepare("SELECT * FROM peminjaman_detail
+            JOIN buku ON peminjaman_detail.id_buku = buku.id_buku
+            WHERE peminjaman_detail.id_peminjaman = :id_peminjaman
+            ");
             $stmt->bindParam(":id_peminjaman", $id_peminjaman);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -100,6 +103,9 @@ class Peminjaman
             echo $e->getMessage();
         }
     }
+
+    
+
 
 
 
@@ -146,6 +152,8 @@ class Peminjaman
         try {
             $stmt = $this->db->prepare("DELETE FROM peminjaman WHERE id_peminjaman= :id_peminjaman");
             $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+                // Debugging: Tampilkan parameter
+        $stmt->debugDumpParams();
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -155,25 +163,33 @@ class Peminjaman
     }
 
 
-    public function hapusDetail($id_buku, $id_peminjaman)
+    public function hapusDetail($id_peminjaman, $id_buku)
     {
-
-
         try {
 
-            //hapus data 
-            $stmt = $this->db->prepare("DELETE FROM peminjaman_detail WHERE id_buku = :id_buku AND id_peminjaman = :id_peminjaman");
-            $stmt->bindParam(":id_buku", $id_buku);
-            $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+            // Siapkan query SQL untuk menghapus data
+            $stmt = $this->db->prepare("DELETE FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman AND id_buku = :id_buku");
+    
+            
+            // Ikat parameter dengan tipe data yang benar
+            $stmt->bindParam(":id_buku", $id_buku); // Periksa jika id_buku adalah string
+            $stmt->bindParam(":id_peminjaman", $id_peminjaman); // Periksa jika id_peminjaman adalah string
+    
             // Debugging: Tampilkan parameter
             $stmt->debugDumpParams();
+            
+            // Eksekusi statement
             $stmt->execute();
+    
             return true;
         } catch (PDOException $e) {
+            // Tangani exception dan tampilkan pesan error
             echo $e->getMessage();
+            return false;
         }
     }
-
+   
+ 
 
     // operasi get all peminjaman play
     public function getAll()

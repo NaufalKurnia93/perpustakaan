@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2024 at 03:59 AM
+-- Generation Time: Aug 28, 2024 at 03:21 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.0.32
 
@@ -40,9 +40,14 @@ CREATE TABLE `anggota` (
 --
 
 INSERT INTO `anggota` (`id_anggota`, `nama_anggota`, `alamat`, `no_telpon`) VALUES
-(13, 'naufal kurnia ', 'pekan barufb', 999000),
-(15, 'beni sanjaya ', 'tanjung belit', 1234),
-(16, 'naufal kurnia ', 'pekan baru', 999000);
+(3, 'gelon', 'jalan raya tangun', 2147483647),
+(4, 'Dian Sastro', 'jalan monas ll', 234321),
+(5, 'Naufal Kurnia', 'jalan pendidikan ', 1234),
+(6, 'bahlil agung', 'jalan golkar', 43121),
+(7, 'Supriadi', 'jalan Nogori lll', 4321234),
+(8, 'Yori', 'jalan setia budi', 2147483647),
+(9, 'wanda', 'jalan pematang', 345432),
+(10, 'alan walker', 'jalan denso ll', 345438);
 
 -- --------------------------------------------------------
 
@@ -51,12 +56,12 @@ INSERT INTO `anggota` (`id_anggota`, `nama_anggota`, `alamat`, `no_telpon`) VALU
 --
 
 CREATE TABLE `buku` (
-  `id_buku` int(100) NOT NULL,
+  `id_buku` varchar(100) NOT NULL,
   `judul` varchar(100) NOT NULL,
   `id_kategori` varchar(100) NOT NULL,
   `id_penulis` varchar(100) NOT NULL,
   `penerbit` varchar(100) NOT NULL,
-  `tahun_terbit` int(100) NOT NULL
+  `tahun_terbit` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -64,7 +69,9 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id_buku`, `judul`, `id_kategori`, `id_penulis`, `penerbit`, `tahun_terbit`) VALUES
-(26, 'siksa kubutm  ', '2', '1', 'global.nitro', 211);
+('BOk_003', 'nununun', '9', '3', 'islam co idyghv ', 20201),
+('BOk_004', 'seni itu abadi', '8', '3', 'genora indonesia', 2020),
+('BOk_005', 'pythagoras dasar', '12', '4', 'math riau', 2004);
 
 -- --------------------------------------------------------
 
@@ -82,11 +89,11 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
-(1, 'teknologi zaman now'),
-(2, 'kuliner'),
-(4, 'perhitungan aritmatika'),
-(5, 'filsafat'),
-(6, 'teknologi zaman now');
+(8, 'Filsafat Budaya'),
+(9, 'Sejarah'),
+(10, 'Kuliner'),
+(11, 'Novel'),
+(12, 'perhitungan');
 
 -- --------------------------------------------------------
 
@@ -95,7 +102,7 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
 --
 
 CREATE TABLE `peminjaman` (
-  `id_peminjaman` int(100) NOT NULL,
+  `id_peminjaman` varchar(100) NOT NULL,
   `id_anggota` varchar(100) NOT NULL,
   `tanggal_pinjam` date NOT NULL,
   `tanggal_kembali` date NOT NULL,
@@ -107,13 +114,7 @@ CREATE TABLE `peminjaman` (
 --
 
 INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `tanggal_pinjam`, `tanggal_kembali`, `id_petugas`) VALUES
-(4, '7', '1111-11-11', '2222-02-22', ''),
-(6, '7', '0000-00-00', '0000-00-00', ''),
-(7, '9', '2024-09-18', '2024-10-10', '4'),
-(8, '7', '1212-02-12', '1821-09-20', '3'),
-(9, '11', '1111-12-21', '1111-03-31', '3'),
-(12, '14', '0000-00-00', '2222-02-02', '3'),
-(13, '15', '2222-12-12', '1121-03-22', '3');
+('PJM001', '3', '0000-00-00', '0000-00-00', '10');
 
 -- --------------------------------------------------------
 
@@ -122,10 +123,10 @@ INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `tanggal_pinjam`, `tang
 --
 
 CREATE TABLE `peminjaman_detail` (
-  `id_peminjaman_detail` int(100) NOT NULL,
-  `id_peminjaman` int(100) NOT NULL,
-  `id_buku` int(100) NOT NULL,
-  `denda` int(100) NOT NULL
+  `id_peminjaman_detail` int(11) NOT NULL,
+  `id_peminjaman` varchar(100) NOT NULL,
+  `id_buku` varchar(100) NOT NULL,
+  `denda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -133,16 +134,7 @@ CREATE TABLE `peminjaman_detail` (
 --
 
 INSERT INTO `peminjaman_detail` (`id_peminjaman_detail`, `id_peminjaman`, `id_buku`, `denda`) VALUES
-(1, 0, 21, 2000),
-(2, 8, 0, 10101001),
-(4, 8, 0, 123),
-(5, 8, 0, 222),
-(6, 6, 0, 111),
-(7, 7, 21, 222),
-(8, 8, 21, 1000),
-(9, 6, 22, 200000),
-(10, 4, 26, 80000),
-(12, 7, 26, 21111);
+(11, 'PJM001', 'BOk_005', 90);
 
 -- --------------------------------------------------------
 
@@ -162,9 +154,9 @@ CREATE TABLE `penulis` (
 --
 
 INSERT INTO `penulis` (`id_penulis`, `nama_penulis`, `asal_negara`, `jumlah_karya`) VALUES
-(1, 'naufal kurniawan', 'indonesia barat', 1222),
-(2, 'alan walker', 'amerika serikat', 21),
-(4, 'grevogerung', 'indonesia', 234);
+(3, 'Naufal Kurnia', 'indonesia', 4),
+(4, 'grevogerung', 'indonesia', 23),
+(5, 'dono', 'indonesia', 12);
 
 -- --------------------------------------------------------
 
@@ -186,8 +178,9 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `jenis_kelamin`, `alamat`, `jabatan`, `shift`) VALUES
-(3, 'bayu', 'Laki-laki', 'lombok', 'Kepala Perpustakaan', 'sore'),
-(4, 'janggar', 'Laki-laki', 'pekanbaru', 'Teknisi Perpustakaan', 'siang');
+(8, 'gibran', 'Laki-laki', 'jalan solo ll;', 'Teknisi Perpustakaan', 'pagi'),
+(10, 'rudi', 'Laki-laki', 'tanjung belit', 'Kepala Perpustakaan', 'siang'),
+(11, 'agus gumiwangan', 'Laki-laki', 'jalan golkar v', 'Pelayanan Pengguna', 'pagi');
 
 -- --------------------------------------------------------
 
@@ -201,15 +194,17 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `no_telp` int(255) NOT NULL,
-  `password` varchar(244) NOT NULL
+  `password` varchar(244) NOT NULL,
+  `role` enum('super_admin','admin','petugas','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nama`, `username`, `email`, `no_telp`, `password`) VALUES
-(2, 'naufalkurnia', 'as', 'naufalk217@gmail.com', 123, '$2y$10$ppmetae3Iaqu0HEkbMEXleNZfUF1wujW0xC44AYbwx8zSShVvaYMW');
+INSERT INTO `users` (`id`, `nama`, `username`, `email`, `no_telp`, `password`, `role`) VALUES
+(27, 'juan', 'go', 'go@gmail.com', 221, '$2y$10$fIPoPCcRoGz4aFX.Cyo/Qe.ceXlm.h4lWbh.OO34sXpa4MImsP57u', 'admin'),
+(28, 'naufal kurnia', 'root', 'noufalkurnia1@gmail.com', 2147483647, '$2y$10$vWU07A3EEvMPz7a0ISc00.W1RxfHCrf6srISbEMJnZMxT59REh.ue', 'super_admin');
 
 --
 -- Indexes for dumped tables
@@ -243,7 +238,9 @@ ALTER TABLE `peminjaman`
 -- Indexes for table `peminjaman_detail`
 --
 ALTER TABLE `peminjaman_detail`
-  ADD PRIMARY KEY (`id_peminjaman_detail`);
+  ADD PRIMARY KEY (`id_peminjaman_detail`),
+  ADD UNIQUE KEY `id_buku` (`id_buku`,`id_peminjaman`),
+  ADD KEY `id_peminjaman` (`id_peminjaman`);
 
 --
 -- Indexes for table `penulis`
@@ -272,49 +269,47 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `buku`
---
-ALTER TABLE `buku`
-  MODIFY `id_buku` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_anggota` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `peminjaman`
---
-ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_kategori` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `peminjaman_detail`
 --
 ALTER TABLE `peminjaman_detail`
-  MODIFY `id_peminjaman_detail` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_peminjaman_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `penulis`
 --
 ALTER TABLE `penulis`
-  MODIFY `id_penulis` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_penulis` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id_petugas` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_petugas` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `peminjaman_detail`
+--
+ALTER TABLE `peminjaman_detail`
+  ADD CONSTRAINT `peminjaman_detail_ibfk_1` FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id_peminjaman`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
