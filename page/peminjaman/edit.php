@@ -11,10 +11,10 @@ $peminjaman = Peminjaman::getInstance($pdo);
 
 // Jika tombol 'save' ditekan
 if (isset($_POST['save'])) {
-  $id_anggota       = htmlspecialchars($_POST['nama_anggota']);
-  $tanggal_pinjam   = htmlspecialchars($_POST['tanggal_pinjam']);
-  $tanggal_kembali  = htmlspecialchars($_POST['tanggal_kembali']);
-  $id_petugas       = htmlspecialchars($_POST['nama_petugas']);
+  $id_anggota = htmlspecialchars($_POST['nama_anggota']);
+  $tanggal_pinjam = htmlspecialchars($_POST['tanggal_pinjam']);
+  $tanggal_kembali = htmlspecialchars($_POST['tanggal_kembali']);
+  $id_petugas = htmlspecialchars($_POST['nama_petugas']);
 
   // Coba edit data buku dan cek hasilnya
   if ($peminjaman->edit($id_peminjaman, $id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas)) {
@@ -33,10 +33,10 @@ if (isset($_POST['save'])) {
   }
 
   //// Ambil data peminjaman untuk ditampilkan di form
-  $id_anggota       = htmlspecialchars($data['id_anggota']);
-  $tanggal_pinjam   = htmlspecialchars($data['tanggal_pinjam']);
-  $tanggal_kembali  = htmlspecialchars($data['tanggal_kembali']);
-  $id_petugas       = htmlspecialchars($data['id_petugas']);
+  $id_anggota = htmlspecialchars($data['id_anggota']);
+  $tanggal_pinjam = htmlspecialchars($data['tanggal_pinjam']);
+  $tanggal_kembali = htmlspecialchars($data['tanggal_kembali']);
+  $id_petugas = htmlspecialchars($data['id_petugas']);
 }
 ?>
 

@@ -104,8 +104,6 @@ class Peminjaman
         }
     }
 
-    
-
 
 
 
@@ -163,32 +161,50 @@ class Peminjaman
     }
 
 
+    // public function hapusDetail($id_peminjaman, $id_buku)
+    // {
+    //     try {
+
+    //         // Siapkan query SQL untuk menghapus data
+    //         $stmt = $this->db->prepare("DELETE FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman AND id_buku = :id_buku");
+    
+            
+    //         // Ikat parameter dengan tipe data yang benar
+    //         $stmt->bindParam(":id_buku", $id_buku); // Periksa jika id_buku adalah string
+    //         $stmt->bindParam(":id_peminjaman", $id_peminjaman); // Periksa jika id_peminjaman adalah string
+    
+    //         // Debugging: Tampilkan parameter
+    //         $stmt->debugDumpParams();
+            
+    //         // Eksekusi statement
+    //         $stmt->execute();
+    
+    //         return true;
+    //     } catch (PDOException $e) {
+    //         // Tangani exception dan tampilkan pesan error
+    //         echo $e->getMessage();
+    //         return false;
+    //     }
+    // }
+   
     public function hapusDetail($id_peminjaman, $id_buku)
     {
         try {
+            $sql = "DELETE FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman AND id_buku = :id_buku";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id_peminjaman', $id_peminjaman, PDO::PARAM_STR);
+            $stmt->bindParam(':id_buku', $id_buku, PDO::PARAM_STR);
 
-            // Siapkan query SQL untuk menghapus data
-            $stmt = $this->db->prepare("DELETE FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman AND id_buku = :id_buku");
-    
-            
-            // Ikat parameter dengan tipe data yang benar
-            $stmt->bindParam(":id_buku", $id_buku); // Periksa jika id_buku adalah string
-            $stmt->bindParam(":id_peminjaman", $id_peminjaman); // Periksa jika id_peminjaman adalah string
-    
-            // Debugging: Tampilkan parameter
-            $stmt->debugDumpParams();
-            
-            // Eksekusi statement
-            $stmt->execute();
-    
-            return true;
+            if ($stmt->execute()) {
+                return "Data berhasil dihapus.";
+            } else {
+                return "Data gagal dihapus.";
+            }
         } catch (PDOException $e) {
-            // Tangani exception dan tampilkan pesan error
-            echo $e->getMessage();
-            return false;
+            return "Error: " . $e->getMessage();
         }
     }
-   
+
  
 
     // operasi get all peminjaman play
@@ -238,6 +254,36 @@ class Peminjaman
         }
     }
 
+
+
+// Fungsi untuk menghitung durasi peminjaman
+// Tambahkan metode untuk menghitung durasi peminjaman
+public function hitungDurasiPeminjaman($id_peminjaman)
+{
+    try {
+        $stmt = $this->db->prepare("SELECT tanggal_pinjam, tanggal_kembali FROM peminjaman WHERE id_peminjaman = :id_peminjaman");
+        $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $tglPinjam = new DateTime($data['tanggal_pinjam']);
+            $tglKembali = new DateTime($data['tanggal_kembali']);
+            $selisih = $tglKembali->diff($tglPinjam);
+            return $selisih->days;
+        } else {
+            throw new Exception("Data peminjaman tidak ditemukan.");
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false;
+    }
 }
+
+}
+
 
 ?>

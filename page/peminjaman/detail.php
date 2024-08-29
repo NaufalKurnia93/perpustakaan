@@ -1,32 +1,26 @@
 <?php
-
 $pdo = dataBase::connect();
 $peminjaman = Peminjaman::getInstance($pdo);
+$id_peminjaman = $_GET['id_peminjaman'];
 
+$durasi = $peminjaman->hitungDurasiPeminjaman($id_peminjaman);
 
-$id_peminjaman = isset($_GET['id_peminjaman']) ? $_GET['id_peminjaman'] : null;
-
-if ($id_peminjaman === null) {
-    die("ID peminjaman tidak ditemukan.");
-}
-
+// Set flag ke true untuk menandai data telah disimpan
+$data_saved = false;
 if (isset($_POST['save'])) {
 
     $id_peminjaman = htmlspecialchars($_POST['id_peminjaman']);
     $id_buku = htmlspecialchars($_POST['id_buku']);
     $denda = htmlspecialchars($_POST['denda']);
 
+    $peminjaman->tambahDetail($id_peminjaman, $id_buku, $denda);
 
-    // Debugging: Tampilkan nilai-nilai form
-    // echo "ID Peminjaman (Form): " . $id_peminjaman . "<br>";
-    // echo "ID Buku (Form): " . $id_buku . "<br>";
-    // echo "Denda (Form): " . $denda . "<br>";
 
-    if ($id_peminjaman && $id_buku && $denda) {
-        $peminjaman->tambahDetail($id_peminjaman, $id_buku, $denda);
-    } else {
-        echo "Data tidak valid.";
-    }
+
+    // Redirect ke halaman yang sama dengan parameter id_peminjaman
+    // Redirect ke halaman detail
+    header("Location: index.php?page=peminjaman&act=detail&id_peminjaman=" . urlencode($id_peminjaman));
+    exit;
 
 }
 ?>
@@ -39,24 +33,33 @@ if (isset($_POST['save'])) {
     <!-- Form Simpan pinjam Peminjaman -->
     <div class="container  mt-5">
         <div class="card">
-
             <div class="card-body">
                 <form method="POST">
-
                     <div class="row ">
-
-
                         <div class="card border border-primary shadow col-4 ">
-                            <div class="card-body pt-0 p-3">
-
-                                <div class="form-group row mb-4">
-                                    <label class="col-form-label text-md-right ">ID Pinjam</label>
+                            <div class="card-body py-2">
+                                <div class="form-group row">
+                                    <label class="col-form-label text-md-right "> ID Buku</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="id_peminjaman"
-                                            value="<?= htmlspecialchars($id_peminjaman) ?>" readonly>
+                                        <select class="form-control selectric" name="id_buku">
+                                            <?php
+                                            $rows = $peminjaman->getBook($id_peminjaman);
 
+                                            foreach ($rows as $row) {
+                                                ?>
+                                                <option value="<?= $row['id_buku'] ?>">
+                                                    <?= $row['id_buku'] ?>
+                                                </option>
+
+                                                <?php
+                                            }
+
+                                            ?>
+                                        </select>
                                     </div>
+
                                 </div>
+
                                 <hr class="sidebar-divider d-none d-md-block">
 
                                 <p class="text-primary font-weight-bold text-center">
@@ -81,60 +84,36 @@ if (isset($_POST['save'])) {
                                 </div>
 
                             </div>
-                            <hr class="sidebar-divider d-none d-md-block">
 
-                            <div class="row justify-content-center p-2">
-                                <div class="col-sm-10 ">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" name="save">
+                                Tambah
+                            </button>
+                        </div>
 
+                        <div class=" card shadow col-sm-7 offset-1">
 
+                            <div class="card-header row">
+                                <div class="form-group col-5 mb-4">
+                                    <label class="col-form-label text-md-right ">ID Pinjam</label>
+                                    <input type="text" class="form-control bg-info text-light" name="id_peminjaman"
+                                        value="<?= htmlspecialchars($id_peminjaman) ?>" readonly>
 
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right "> ID Buku</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control selectric" name="id_buku">
-                                                <?php
-                                                $rows = $peminjaman->getBook($id_peminjaman);
+                                </div>
 
-                                                foreach ($rows as $row) {
-                                                    ?>
-                                                    <option value="<?= $row['id_buku'] ?>">
-                                                        <?= $row['id_buku'] ?>
-                                                    </option>
+                                <!-- Durasi Peminjaman -->
+                                <div class="form-group col-5 mb-4">
+                                    <label class="col-form-label text-md-right">Durasi Peminjaman</label>
 
-                                                    <?php
-                                                }
+                                    <input type="text" class="form-control bg-info text-light"
+                                        value="<?= htmlspecialchars($durasi) ?> hari" readonly>
 
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block" name="save">
-                                        Tambah
-                                    </button>
+                                </div>
+                                <div class="col-2 mb-4 pb-2">
+                                    <a href="index.php?page=peminjaman" class="btn btn-secondary shadow">Kembali</a>
                                 </div>
                             </div>
 
-
-
-
-                        </div>
-
-
-
-
-
-
-                        <div class=" col-sm-7 offset-1">
-                            <div class="text-right">
-                                <a href="index.php?page=peminjaman" class="btn btn-info shadow">Kembali</a>
-                            </div>
-                            <div class="card-header">Detail Peminjaman
-                                <?= $id_peminjaman ?>
-                            </div>
-                            <table class="table table-striped table-bordered table-hover text-center"
-                                id="dataTables-example">
+                            <table class="table table-bordered table-hover text-center">
                                 <tr>
                                     <th>No</th>
                                     <th>Judul buku</th>
@@ -142,7 +121,7 @@ if (isset($_POST['save'])) {
                                     <th>Denda</th>
                                     <th>Action</th>
                                 </tr>
-                                
+
                                 <?php
                                 $i = 1;
                                 $rows = $peminjaman->getDetail($id_peminjaman);
@@ -152,7 +131,6 @@ if (isset($_POST['save'])) {
                                         <td class="text-center">
                                             <?php echo $i++ ?>
                                         </td>
-
 
                                         <td class="align-middle">
                                             <?php echo $row["judul"] ?>
@@ -165,13 +143,21 @@ if (isset($_POST['save'])) {
                                             <?php echo $row["denda"] ?>
                                         </td>
 
-
                                         <td class="align-middle">
-                                            <a class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete"
-                                                data-confirm="Apakah Anda Yakin Ingin Menghapus Data Dari Peminjaman?"
-                                                data-confirm-yes="window.location.href='index.php?page=peminjaman&act=delete&id_peminjaman=<?= htmlspecialchars($row['id_peminjaman']) ?>&id_buku=<?= htmlspecialchars($row['id_buku']) ?>'">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                            <div class="btn-group " role="group">
+                                                <a class="btn btn-danger btn-action mr-3" data-toggle="tooltip" title="Delete"
+                                                    data-confirm="Apakah Anda Yakin Ingin Menghapus Data Dari Peminjaman?"
+                                                    data-confirm-yes="window.location.href='index.php?page=peminjaman&act=delete&golkar=hapus&id_peminjaman=<?= htmlspecialchars($row['id_peminjaman']) ?>&id_buku=<?= htmlspecialchars($row['id_buku']) ?>'">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+
+                                                <a class="btn btn-success btn-action" data-toggle="tooltip"
+                                                    title="Selesaikan"
+                                                    data-confirm="Apakah Anda Yakin Ingin Menyelesaikan Peminjaman?"
+                                                    data-confirm-yes="window.location.href='index.php?page=peminjaman&id_peminjaman=<?= htmlspecialchars($row['id_peminjaman']) ?>'">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                </a>
+                                            </div>
                                         </td>
 
 
@@ -183,14 +169,9 @@ if (isset($_POST['save'])) {
                         </div>
 
                     </div>
-
-
-
                 </form>
             </div>
         </div>
-
-
 </body>
 
 </html>

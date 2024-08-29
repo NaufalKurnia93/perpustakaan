@@ -70,9 +70,6 @@ if ($user->cekLogin() == false) { //belum login
                         case 'peminjaman':
                             include('page/peminjaman/default.php');
                             break;
-                        case 'peminjaman_detail':
-                            include('page/peminjaman_detail/default.php');
-                            break;
                         case 'logout':
                             include 'access/aksesLogout.php';
                             break;
@@ -92,7 +89,7 @@ if ($user->cekLogin() == false) { //belum login
         <!-- Script untuk menginisialisasi DataTables -->
         <script>
             $(document).ready(function () {
-                $('table').DataTable(); // Menginisialisasi DataTables untuk semua tabel di halaman
+                $('#dataTables-example').DataTable(); // Menginisialisasi DataTables untuk semua tabel di halaman
             });
         </script>
 
