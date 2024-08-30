@@ -123,7 +123,7 @@ INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `tanggal_pinjam`, `tang
 --
 
 CREATE TABLE `peminjaman_detail` (
-  `id_peminjaman_detail` int(11) NOT NULL,
+  `id_peminjaman_detail` int(11) NOT NULL,l
   `id_peminjaman` varchar(100) NOT NULL,
   `id_buku` varchar(100) NOT NULL,
   `denda` int(11) NOT NULL

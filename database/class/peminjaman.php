@@ -27,8 +27,8 @@ class Peminjaman
     public function tambah($id_peminjaman, $id_anggota, $tanggal_pinjam, $tanggal_kembali, $id_petugas)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO peminjaman(id_peminjaman,id_anggota, tanggal_pinjam, tanggal_kembali, id_petugas) VALUES (:id_peminjaman, :id_anggota, :tanggal_pinjam, :tanggal_kembali, :id_petugas)");
-
+            $stmt = $this->db->prepare("INSERT INTO peminjaman (id_peminjaman, id_anggota, tanggal_pinjam, tanggal_kembali, id_petugas, status) 
+                                        VALUES (:id_peminjaman, :id_anggota, :tanggal_pinjam, :tanggal_kembali, :id_petugas, 'sedang dipinjam')");
             $stmt->bindParam(":id_peminjaman", $id_peminjaman);
             $stmt->bindParam(":id_anggota", $id_anggota);
             $stmt->bindParam(":tanggal_pinjam", $tanggal_pinjam);
@@ -41,17 +41,24 @@ class Peminjaman
             return false;
         }
     }
+    
 
 
-    public function tambahDetail($id_peminjaman, $id_buku, $denda)
+
+    public function tambahDetail($id_peminjaman, $id_buku, $denda = null)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO peminjaman_detail(id_peminjaman, id_buku, denda) VALUES (:id_peminjaman, :id_buku, :denda)");
-
+            $stmt = $this->db->prepare("INSERT INTO peminjaman_detail (id_peminjaman, id_buku, denda) VALUES (:id_peminjaman, :id_buku, :denda)");
             $stmt->bindParam(":id_peminjaman", $id_peminjaman);
-            $stmt->bindParam(":id_buku", $id_buku); // parameter tersebut adalah STRING.
-            $stmt->bindParam(":denda", $denda, PDO::PARAM_INT);
-
+            $stmt->bindParam(":id_buku", $id_buku);
+    
+            // Menghindari masalah jika denda tidak diberikan
+            if ($denda === null) {
+                $stmt->bindValue(":denda", null, PDO::PARAM_NULL);
+            } else {
+                $stmt->bindParam(":denda", $denda, PDO::PARAM_INT);
+            }
+    
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -283,7 +290,149 @@ public function hitungDurasiPeminjaman($id_peminjaman)
     }
 }
 
+ // Menghitung denda
+ public function hitungDenda($id_peminjaman, $tarif_denda_per_hari)
+ {
+     try {
+         $durasi = $this->hitungDurasiPeminjaman($id_peminjaman);
+         $tanggal_kembali = new DateTime($this->getID($id_peminjaman)['tanggal_kembali']);
+         $tanggal_sekarang = new DateTime();
+         $keterlambatan = $tanggal_sekarang->diff($tanggal_kembali)->days;
+
+         if ($keterlambatan > 0) {
+             return $keterlambatan * $tarif_denda_per_hari;
+         }
+         return 0;
+     } catch (PDOException $e) {
+         echo $e->getMessage();
+         return false;
+     }
+ }
+
+ // Mengupdate status konfirmasi denda
+ 
+
+ 
+
+ // Mengambil denda untuk peminjaman tertentu
+ public function getDenda($id_peminjaman)
+ {
+     try {
+         $stmt = $this->db->prepare("SELECT SUM(denda) as total_denda FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman");
+         $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+         $stmt->execute();
+         $data = $stmt->fetch(PDO::FETCH_ASSOC);
+         return $data['total_denda'];
+     } catch (PDOException $e) {
+         echo $e->getMessage();
+         return false;
+     }
+ }
+
+
+
+
+
+
+public function konfirmasiDenda($id_peminjaman, $tarif_denda_per_hari)
+{
+    try {
+        // Hitung denda berdasarkan peminjaman
+        $denda = $this->hitungDenda($id_peminjaman, $tarif_denda_per_hari);
+        
+        // Update denda di peminjaman_detail jika denda belum diisi
+        $stmt = $this->db->prepare("UPDATE peminjaman_detail 
+                                    SET denda = :denda 
+                                    WHERE id_peminjaman = :id_peminjaman 
+                                    AND denda IS NULL");
+        
+        // Bind parameter
+        $stmt->bindParam(":denda", $denda, PDO::PARAM_INT);
+        $stmt->bindParam(":id_peminjaman", $id_peminjaman);
+        
+        // Execute statement
+        $stmt->execute();
+        
+        return true;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
 }
 
+public function selesaikanPeminjaman($id_peminjaman, $tarif_denda_per_hari) {
+    try {
+        // Hitung denda jika ada keterlambatan
+        $denda = $this->hitungDenda($id_peminjaman, $tarif_denda_per_hari);
+
+        // Cek apakah ada denda yang belum dikonfirmasi
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM peminjaman_detail WHERE id_peminjaman = :id_peminjaman AND denda IS NULL");
+        $stmt->bindParam(':id_peminjaman', $id_peminjaman);
+        $stmt->execute();
+        $belumDikonfirmasi = $stmt->fetchColumn();
+
+        if ($belumDikonfirmasi > 0) {
+            // Jika ada denda yang belum dikonfirmasi, update denda pada peminjaman_detail
+            $stmt = $this->db->prepare("UPDATE peminjaman_detail SET denda = :denda WHERE id_peminjaman = :id_peminjaman AND denda IS NULL");
+            $stmt->bindParam(':denda', $denda, PDO::PARAM_INT);
+            $stmt->bindParam(':id_peminjaman', $id_peminjaman);
+            $stmt->execute();
+        }
+
+        // Tandai peminjaman sebagai selesai
+        $stmt = $this->db->prepare("UPDATE peminjaman SET status = 'selesai' WHERE id_peminjaman = :id_peminjaman");
+        $stmt->bindParam(':id_peminjaman', $id_peminjaman);
+        $stmt->execute();
+
+        return true; // Mengembalikan true jika operasi berhasil
+    } catch (PDOException $e) {
+        echo $e->getMessage(); // Menampilkan pesan kesalahan jika terjadi PDOException
+        return false; // Mengembalikan false jika operasi gagal
+    }
+}
+
+public function prosesSelesaikanPeminjaman($id_peminjaman, $tarif_denda_per_hari) {
+    try {
+        // Ambil data peminjaman berdasarkan ID
+        $peminjaman = $this->getID($id_peminjaman);
+        
+        if (!$peminjaman) {
+            throw new Exception("Peminjaman tidak ditemukan.");
+        }
+
+        // Menghitung durasi peminjaman dan denda
+        $tanggal_kembali = new DateTime($peminjaman['tanggal_kembali']);
+        $tanggal_sekarang = new DateTime();
+        $selisih = $tanggal_sekarang->diff($tanggal_kembali)->days;
+
+        // Jika peminjaman terlambat
+        if ($selisih > 0) {
+            // Hitung total denda
+            $total_denda = $this->hitungDenda($id_peminjaman, $tarif_denda_per_hari);
+            
+            // Jika total denda lebih dari 0, konfirmasi denda
+            if ($total_denda > 0) {
+                return [
+                    'status' => 'konfirmasi_denda',
+                    'total_denda' => $total_denda
+                ];
+            }
+        }
+
+        // Jika tidak terlambat atau tidak ada denda, proses penyelesaian
+        $this->selesaikanPeminjaman($id_peminjaman, $tarif_denda_per_hari);
+
+        return ['status' => 'selesai'];
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
+
+
+}
 
 ?>

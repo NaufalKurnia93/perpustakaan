@@ -16,7 +16,7 @@ switch ($act) {
         // echo "Including edit.php<br>"; // Debugging 
         include ('edit.php');
         break;
-
+        
         
     case 'delete':
         include ('hapus.php');
@@ -27,6 +27,9 @@ switch ($act) {
             include ('detail.php');
             break;
             
+            case 'proses':
+                include ('proses.php');
+                break;
 
     default:
         include ('index.php');
