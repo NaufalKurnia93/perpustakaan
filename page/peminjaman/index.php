@@ -24,6 +24,7 @@
               <th scope="col" class="font-weight-bold">Tanggal Pinjam</th>
               <th scope="col" class="font-weight-bold">Tanggal Kembali</th>
               <th scope="col" class="font-weight-bold">Petugas</th>
+              <th scope="col" class="font-weight-bold">Status</th>
               <th scope="col" class="font-weight-bold">Aksi</th>
             </tr>
           </thead>
@@ -44,7 +45,7 @@
                 <td class="text-center">
                   <?php echo $no++ ?>
                 </td>
-                <td>
+                   <td>
                   <?php echo htmlspecialchars($row['nama_anggota']); ?>
                 </td>
                 <td>
@@ -56,6 +57,7 @@
                 <td>
                   <?php echo htmlspecialchars($row['nama_petugas']); ?>
                 </td>
+                <td><?php echo htmlspecialchars($row['status']); ?></td> 
                 <td class="text-center">
                   <a href="index.php?page=peminjaman&act=update&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
                     class="btn btn-info btn-sm">Edit</a>
