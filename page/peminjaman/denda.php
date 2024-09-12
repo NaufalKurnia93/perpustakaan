@@ -45,6 +45,9 @@ $durasi = $peminjaman->hitungDurasiPeminjaman($id_peminjaman);
                                         <i class="fas fa-exclamation-triangle h3"></i>
                                         Jika buku terlambat dikembalikan, maka dikenakan denda.
                                     </p>
+                                    <div class="text-center my-3">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Open_book_nae_02.svg/800px-Open_book_nae_02.svg.png" class="" alt="" width="200px" height="auto">
+                                </div>
                                 </div>
 
 

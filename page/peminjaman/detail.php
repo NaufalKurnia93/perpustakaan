@@ -41,8 +41,8 @@ if (isset($_POST['selesaikan_peminjaman'])) {
             <div class="card-body">
             <form method="POST">
                 <div class="row">
-                        <div class="card border border-primary shadow col-3 align-items-start">
-                            <div class="card-body py-2">
+                        <div class="card border border-primary shadow col-3 d-flex align-self-start">
+                            <div class="card-body py-4">
                                 <div class="form-group row">
                                     <label class="col-form-label text-md-right">ID Buku</label>
                                     <div class="col-sm-12">
@@ -67,7 +67,7 @@ if (isset($_POST['selesaikan_peminjaman'])) {
                             </div>
                         </div>
 
-                        <div class="card shadow col-sm-8 offset-1 align-items-start" style="height: 150px;">
+                        <div class="card shadow col-sm-8 offset-1 align-items-start">
                             <div class="card-header row">
 
                                 <div class="form-group col-5 mb-4">
