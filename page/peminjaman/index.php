@@ -45,7 +45,7 @@
                 <td class="text-center">
                   <?php echo $no++ ?>
                 </td>
-                   <td>
+                <td>
                   <?php echo htmlspecialchars($row['nama_anggota']); ?>
                 </td>
                 <td>
@@ -57,20 +57,33 @@
                 <td>
                   <?php echo htmlspecialchars($row['nama_petugas']); ?>
                 </td>
-                <td><?php echo htmlspecialchars($row['status']); ?></td> 
+                <td>
+                  <?php
+                  $status = htmlspecialchars($row['status']);
+                  if ($status == 'selesai') {
+                    echo '<span class="badge badge-success">Selesai</span>';
+                  } else if ($status == 'berlangsung') {
+                    echo '<span class="badge badge-warning">Berlangsung</span>';
+                  }
+                  ?>
+                </td>
+
                 <td class="text-center">
                   <a href="index.php?page=peminjaman&act=update&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
-                    class="btn btn-info btn-sm">Edit</a>
+                    class="btn btn-info btn-sm" title="edit"><i class="fas fa-pencil-alt"></i>
+                  </a>
 
-                    <a href="index.php?page=peminjaman&act=detail&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
-                      class="btn btn-secondary btn-sm">detail</a>
+              <a href="index.php?page=peminjaman&act=detail&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
+                    class="btn btn-dark btn-sm " title="detail"><i class="fas fa-eye"></i>
+                  </a>
 
-                      
+
 
 
                   <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') { ?>
                     <a href="index.php?page=peminjaman&act=delete&id_peminjaman=<?php echo $row['id_peminjaman'] ?>"
-                      class="btn btn-danger btn-sm">Hapus</a>
+                      class="btn btn-danger btn-sm" title="hapus"><i class="fas fa-trash"></i>
+                    </a>
                     <?php
                   }
                   ?>

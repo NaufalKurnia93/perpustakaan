@@ -26,6 +26,10 @@ switch ($act) {
         case 'detail':
             include ('detail.php');
             break;
+
+            case 'denda':
+                include ('denda.php');
+                break;
             
             case 'proses':
                 include ('proses.php');

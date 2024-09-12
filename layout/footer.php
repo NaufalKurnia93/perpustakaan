@@ -55,7 +55,24 @@
       timer: 3000
     });
 
-  
+  <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "konfir") { ?>
+    Swal.fire({
+      icon: "error",
+      title: "MAAf...",
+      text: "silahkan konfirmasi denda terlebih dahulu !",
+      // footer: '<a href="#">Why do I have this issue?</a>'
+    });
+
+    <?php } elseif (isset($_GET['cek']) && $_GET['cek'] == "end") { ?>
+
+    Swal.fire({
+      icon: "success",
+      title: "Selamat Peminjaman Telah Dituntaskan",
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+ 
 
     <?php
   }
