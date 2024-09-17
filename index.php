@@ -23,9 +23,25 @@ if ($user->cekLogin() == false) { //belum login
         default:
             include('access/login.php');
             break;
-    }
+    }  
     exit;
-} else {
+}
+
+    // elseif statement yang benar untuk cetak pdf
+elseif (isset($_GET['mpdf'])) { // cek apakah ada parameter 'pdf'
+    $mpdf = $_GET['mpdf'];
+
+    switch ($mpdf) {
+        case 'pdf':
+            include 'page/peminjaman/laporanMpdf.php';
+            break;
+        default:
+            // Redirect or handle unknown cetak values
+            header('Location: index.php'); // ganti 'index.php' dengan halaman utama jika perlu
+            exit;
+    }
+    
+}else {
     ?>
     <!DOCTYPE html>
     <html lang="en" style="height: 100%;">

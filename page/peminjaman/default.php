@@ -35,6 +35,7 @@ switch ($act) {
                 include ('proses.php');
                 break;
 
+
     default:
         include ('index.php');
         break;

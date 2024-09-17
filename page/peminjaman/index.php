@@ -12,6 +12,9 @@
     <div class="card">
       <div class="card-header ">
         Daftar Peminjaman
+        <div class="ml-auto mt-3">
+        <a href="index.php?page=peminjaman&mpdf=pdf" class="btn btn-info mb-3">PDf</a>
+        </div>
       </div>
       <div class="card-body ">
         <a href="index.php?page=peminjaman&act=create" class="btn btn-info mb-3">TAMBAH DATA</a>
